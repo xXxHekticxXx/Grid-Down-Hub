@@ -1,0 +1,11 @@
+[
+  { "id": "first-aid", "title": "Trauma & First Aid", "icon": "medkit", "blurb": "Bleeding, CPR, choking, wounds, bites, heat, illness, the dog. Steps from AHA/Red Cross, CDC and NIH." },
+  { "id": "water", "title": "Water", "icon": "drop", "blurb": "How much to store, how to find it around Sorrento and in the forest, and how to make it safe." },
+  { "id": "food", "title": "Food", "icon": "pot", "blurb": "Fridge and freezer timelines, cooking without power, the pantry, fishing, small game and the dog's food." },
+  { "id": "plants", "title": "Plants & Herbal", "icon": "leaf", "blurb": "Florida wild edibles, deadly look-alikes and traditional plant remedies, each with an honest evidence label." },
+  { "id": "hazards", "title": "Hazards & Security", "icon": "storm", "blurb": "Hurricanes, floods, lightning, heat, fire, generators, wildlife and staying safe when things break down." },
+  { "id": "power-shelter", "title": "Power & Shelter", "icon": "bolt", "blurb": "Solar, generators, batteries, keeping the camper cool, light, tarps, toilets and trash." },
+  { "id": "comms-nav", "title": "Radio & Navigation", "icon": "radio", "blurb": "NOAA radio, FRS and GMRS, ham radio, signaling, map and compass, and getting around without GPS." },
+  { "id": "skills", "title": "Bushcraft & Skills", "icon": "axe", "blurb": "Fire, shelter, knots, cordage, hatchet and machete, camp, hygiene, water crossings and land navigation." },
+  { "id": "bug-out", "title": "Go Plan & Field", "icon": "truck", "blurb": "Stay or go, loading the truck, routes and fuel, camping in the Ocala National Forest, firearms in the field." }
+]

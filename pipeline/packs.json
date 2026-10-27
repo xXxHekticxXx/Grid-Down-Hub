@@ -1,0 +1,44 @@
+[
+  {
+    "id": "maps-base", "required": true,
+    "title": "Florida base map",
+    "description": "All of Florida, streets to zoom 13 (shown down to street level), for routing anywhere in the state",
+    "files": ["tiles/florida-base.pmtiles"]
+  },
+  {
+    "id": "maps-detail", "required": true,
+    "title": "Lake County to Ocala National Forest detail map",
+    "description": "Full detail to zoom 15: every street, forest road, trail and building from Clermont and Sanford north past Salt Springs",
+    "files": ["tiles/lake-ocala-detail.pmtiles"]
+  },
+  {
+    "id": "topo-overlay", "required": true,
+    "title": "USGS topo overlay",
+    "description": "27 USGS US Topo quads (home area and Ocala NF) as a map overlay to zoom 16",
+    "files": ["tiles/usgs-topo.pmtiles"]
+  },
+  {
+    "id": "pois", "required": true,
+    "title": "Map places",
+    "description": "Hospitals, ERs, urgent care, fire, police, pharmacies, gas, grocery, hardware, springs, boat ramps, campgrounds, parks, churches, schools and Lake County shelters",
+    "files": ["pois/poi-hospital.geojson", "pois/poi-urgent_care.geojson", "pois/poi-pharmacy.geojson", "pois/poi-shelter.geojson", "pois/poi-fire.geojson", "pois/poi-police.geojson", "pois/poi-ranger.geojson", "pois/poi-gas.geojson", "pois/poi-grocery.geojson", "pois/poi-store.geojson", "pois/poi-hardware.geojson", "pois/poi-outdoor.geojson", "pois/poi-spring.geojson", "pois/poi-water_tap.geojson", "pois/poi-boat_ramp.geojson", "pois/poi-lake.geojson", "pois/poi-campground.geojson", "pois/poi-park.geojson", "pois/poi-church.geojson", "pois/poi-school.geojson", "pois/pois-index.json"]
+  },
+  {
+    "id": "library", "required": true,
+    "title": "Library: survival and first aid manuals",
+    "description": "ATP 3-50.21 Survival, ATP 4-02.11 Casualty Response and First Aid, FEMA P-2064 Are You Ready? (original PDFs)",
+    "files": ["pdf/ATP_3-50.21_Survival.pdf", "pdf/ATP_4-02.11_Casualty_Response_First_Aid.pdf", "pdf/FEMA_P-2064_Are_You_Ready.pdf"]
+  },
+  {
+    "id": "topo-pdf-home", "required": true,
+    "title": "USGS topo PDFs: home area (9 originals)",
+    "description": "Sorrento and the 8 quads around it, original USGS GeoPDFs, print-ready",
+    "files": ["pdf/FL_Sorrento_20150817_TM_geo.pdf", "pdf/FL_Umatilla_20150817_TM_geo.pdf", "pdf/FL_Paisley_20150817_TM_geo.pdf", "pdf/FL_Pine_Lakes_20150817_TM_geo.pdf", "pdf/FL_Eustis_20150817_TM_geo.pdf", "pdf/FL_Sanford_SW_20150817_TM_geo.pdf", "pdf/FL_Astatula_20150817_TM_geo.pdf", "pdf/FL_Apopka_20150817_TM_geo.pdf", "pdf/FL_Forest_City_20150817_TM_geo.pdf"]
+  },
+  {
+    "id": "topo-pdf-forest", "required": true,
+    "title": "USGS topo PDFs: Ocala NF and the drive north (18 print editions)",
+    "description": "Print editions of the 18 quads covering the Ocala National Forest, made from the USGS GeoPDFs without the aerial photo layer",
+    "files": ["print/FL_Alexander_Springs_20150720_print.pdf", "print/FL_Astor_20150720_print.pdf", "print/FL_Crescent_City_20150720_print.pdf", "print/FL_Emeralda_Island_20150817_print.pdf", "print/FL_Eureka_Dam_20150803_print.pdf", "print/FL_Farles_Lake_20150720_print.pdf", "print/FL_Fort_McCoy_20150720_print.pdf", "print/FL_Halfmoon_Lake_20150720_print.pdf", "print/FL_Juniper_Springs_20150803_print.pdf", "print/FL_Lady_Lake_20150817_print.pdf", "print/FL_Lake_Delancy_20150720_print.pdf", "print/FL_Lake_Kerr_20150720_print.pdf", "print/FL_Lake_Mary_20150803_print.pdf", "print/FL_Lake_Weir_20150803_print.pdf", "print/FL_Lynne_20150803_print.pdf", "print/FL_Salt_Springs_20150720_print.pdf", "print/FL_Welaka_20150720_print.pdf", "print/FL_Welaka_SE_20150803_print.pdf"]
+  }
+]

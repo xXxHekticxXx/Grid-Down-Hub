@@ -1,0 +1,127 @@
+{
+ "id": "ready-gov-kit",
+ "title": "Basic disaster kit (Ready.gov)",
+ "source": {
+  "title": "Ready.gov: Build a Kit",
+  "url": "https://www.ready.gov/kit",
+  "checked": "2026-10-27"
+ },
+ "sections": [
+  {
+   "title": "Basic kit",
+   "items": [
+    {
+     "id": "water",
+     "text": "Water",
+     "qty": "1 gal per person per day, several days"
+    },
+    {
+     "id": "non-perishable-food",
+     "text": "Non-perishable food",
+     "qty": "several days"
+    },
+    {
+     "id": "battery-powered-or-hand-crank-radio-and-",
+     "text": "Battery-powered or hand-crank radio and NOAA Weather Radio with tone alert"
+    },
+    {
+     "id": "flashlight",
+     "text": "Flashlight"
+    },
+    {
+     "id": "first-aid-kit",
+     "text": "First aid kit"
+    },
+    {
+     "id": "extra-batteries",
+     "text": "Extra batteries"
+    },
+    {
+     "id": "whistle-to-signal-for-help",
+     "text": "Whistle to signal for help"
+    },
+    {
+     "id": "dust-mask",
+     "text": "Dust mask"
+    },
+    {
+     "id": "plastic-sheeting-scissors-and-duct-tape",
+     "text": "Plastic sheeting, scissors and duct tape"
+    },
+    {
+     "id": "moist-towelettes-garbage-bags-and-plasti",
+     "text": "Moist towelettes, garbage bags and plastic ties"
+    },
+    {
+     "id": "wrench-or-pliers-to-turn-off-utilities",
+     "text": "Wrench or pliers to turn off utilities"
+    },
+    {
+     "id": "manual-can-opener",
+     "text": "Manual can opener"
+    },
+    {
+     "id": "local-maps",
+     "text": "Local maps"
+    },
+    {
+     "id": "cell-phone-with-chargers-and-a-backup-ba",
+     "text": "Cell phone with chargers and a backup battery"
+    }
+   ]
+  },
+  {
+   "title": "Additional items",
+   "items": [
+    {
+     "id": "prescription-medicines",
+     "text": "Prescription medicines"
+    },
+    {
+     "id": "glasses-and-contact-lens-solution",
+     "text": "Glasses and contact lens solution"
+    },
+    {
+     "id": "pet-food-water-and-supplies",
+     "text": "Pet food, water and supplies"
+    },
+    {
+     "id": "cash-or-traveler-s-checks",
+     "text": "Cash or traveler's checks"
+    },
+    {
+     "id": "important-documents-in-a-waterproof-cont",
+     "text": "Important documents in a waterproof container"
+    },
+    {
+     "id": "sleeping-bag-or-warm-blanket",
+     "text": "Sleeping bag or warm blanket"
+    },
+    {
+     "id": "change-of-clothes-and-sturdy-shoes",
+     "text": "Change of clothes and sturdy shoes"
+    },
+    {
+     "id": "fire-extinguisher",
+     "text": "Fire extinguisher"
+    },
+    {
+     "id": "matches-in-a-waterproof-container",
+     "text": "Matches in a waterproof container"
+    },
+    {
+     "id": "personal-hygiene-items",
+     "text": "Personal hygiene items"
+    },
+    {
+     "id": "mess-kits-paper-cups-plates-and-utensils",
+     "text": "Mess kits, paper cups, plates and utensils"
+    },
+    {
+     "id": "paper-and-pencil",
+     "text": "Paper and pencil"
+    }
+   ]
+  }
+ ]
+}

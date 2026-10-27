@@ -1,0 +1,187 @@
+{
+ "id": "first-aid-kit",
+ "title": "First aid kit",
+ "source": {
+  "title": "2024 American Heart Association and American Red Cross Guidelines for First Aid",
+  "url": "https://cpr.heart.org/en/resuscitation-science/2024-first-aid-guidelines",
+  "checked": "2026-10-27"
+ },
+ "sections": [
+  {
+   "title": "Bleeding and trauma",
+   "items": [
+    {
+     "id": "commercial-tourniquet-cat-or-sof-t-wide",
+     "text": "Commercial tourniquet (CAT or SOF-T Wide)",
+     "qty": "2"
+    },
+    {
+     "id": "hemostatic-gauze",
+     "text": "Hemostatic gauze"
+    },
+    {
+     "id": "pressure-bandage-israeli",
+     "text": "Pressure bandage (Israeli)"
+    },
+    {
+     "id": "vented-chest-seals",
+     "text": "Vented chest seals",
+     "qty": "2"
+    },
+    {
+     "id": "trauma-shears",
+     "text": "Trauma shears"
+    },
+    {
+     "id": "nitrile-gloves",
+     "text": "Nitrile gloves",
+     "qty": "10 pairs"
+    },
+    {
+     "id": "permanent-marker",
+     "text": "Permanent marker"
+    },
+    {
+     "id": "emergency-blankets",
+     "text": "Emergency blankets"
+    }
+   ]
+  },
+  {
+   "title": "Wounds",
+   "items": [
+    {
+     "id": "adhesive-bandages-all-sizes",
+     "text": "Adhesive bandages, all sizes"
+    },
+    {
+     "id": "gauze-pads-and-rolls",
+     "text": "Gauze pads and rolls"
+    },
+    {
+     "id": "medical-tape",
+     "text": "Medical tape"
+    },
+    {
+     "id": "non-stick-dressings",
+     "text": "Non-stick dressings"
+    },
+    {
+     "id": "petroleum-jelly-or-antibiotic-ointment",
+     "text": "Petroleum jelly or antibiotic ointment"
+    },
+    {
+     "id": "irrigation-syringe",
+     "text": "Irrigation syringe"
+    },
+    {
+     "id": "butterfly-closures",
+     "text": "Butterfly closures"
+    },
+    {
+     "id": "tweezers-and-tick-tool",
+     "text": "Tweezers and tick tool"
+    },
+    {
+     "id": "moleskin-and-blister-bandages",
+     "text": "Moleskin and blister bandages"
+    }
+   ]
+  },
+  {
+   "title": "Splints and wraps",
+   "items": [
+    {
+     "id": "sam-splint",
+     "text": "SAM splint"
+    },
+    {
+     "id": "elastic-wraps-2",
+     "text": "Elastic wraps (2)"
+    },
+    {
+     "id": "triangular-bandages-2",
+     "text": "Triangular bandages (2)"
+    },
+    {
+     "id": "instant-cold-packs",
+     "text": "Instant cold packs"
+    }
+   ]
+  },
+  {
+   "title": "Medicines",
+   "items": [
+    {
+     "id": "aspirin-81-mg-chewable",
+     "text": "Aspirin 81 mg chewable"
+    },
+    {
+     "id": "acetaminophen",
+     "text": "Acetaminophen"
+    },
+    {
+     "id": "ibuprofen",
+     "text": "Ibuprofen"
+    },
+    {
+     "id": "antihistamine",
+     "text": "Antihistamine"
+    },
+    {
+     "id": "hydrocortisone-cream",
+     "text": "Hydrocortisone cream"
+    },
+    {
+     "id": "ors-packets",
+     "text": "ORS packets"
+    },
+    {
+     "id": "glucose-tablets",
+     "text": "Glucose tablets"
+    },
+    {
+     "id": "naloxone-nasal-spray",
+     "text": "Naloxone nasal spray"
+    },
+    {
+     "id": "burn-gel-or-aloe",
+     "text": "Burn gel or aloe"
+    },
+    {
+     "id": "eyewash-saline",
+     "text": "Eyewash / saline"
+    },
+    {
+     "id": "lidocaine-cream",
+     "text": "Lidocaine cream"
+    }
+   ]
+  },
+  {
+   "title": "Other",
+   "items": [
+    {
+     "id": "cpr-face-shield",
+     "text": "CPR face shield"
+    },
+    {
+     "id": "thermometer",
+     "text": "Thermometer"
+    },
+    {
+     "id": "headlamp",
+     "text": "Headlamp"
+    },
+    {
+     "id": "notepad-and-pencil",
+     "text": "Notepad and pencil"
+    },
+    {
+     "id": "this-app-emergency-button",
+     "text": "This app (Emergency button)"
+    }
+   ]
+  }
+ ]
+}

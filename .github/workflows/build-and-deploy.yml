@@ -1,0 +1,137 @@
+name: Build app, APK and site
+# On every push to main:
+#   1. builds the web app and runs the content checks,
+#   2. builds the signed Android APK with Capacitor,
+#   3. publishes the PWA, the data packs (from the data-packs branch) and the APK to GitHub Pages,
+#   4. attaches the APK to a GitHub release.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build the PWA for GitHub Pages
+        run: npm run build
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: dist
+          retention-days: 7
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: android-actions/setup-android@v3
+      - run: npm ci
+      - name: Build the web app for the phone
+        run: npm run build
+        env:
+          VITE_BASE: /
+      - run: npx cap sync android
+      - name: Signing key
+        # A GitHub secret GDH_KEYSTORE_B64 (with GDH_KEYSTORE_PASSWORD) overrides the key kept in the repository.
+        env:
+          KS_B64: ${{ secrets.GDH_KEYSTORE_B64 }}
+          KS_PW: ${{ secrets.GDH_KEYSTORE_PASSWORD }}
+        run: |
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+            echo "GDH_KEYSTORE=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+            echo "GDH_KEYSTORE_PASSWORD=$KS_PW" >> "$GITHUB_ENV"
+            echo "GDH_KEY_PASSWORD=$KS_PW" >> "$GITHUB_ENV"
+          else
+            echo "GDH_KEYSTORE=$GITHUB_WORKSPACE/android/signing/griddownhub.keystore" >> "$GITHUB_ENV"
+            echo "GDH_KEYSTORE_PASSWORD=$(cat android/signing/password.txt)" >> "$GITHUB_ENV"
+            echo "GDH_KEY_PASSWORD=$(cat android/signing/password.txt)" >> "$GITHUB_ENV"
+          fi
+      - name: Build the signed release APK
+        working-directory: android
+        env:
+          GDH_VERSION_CODE: ${{ github.run_number }}
+          GDH_VERSION_NAME: 1.0.${{ github.run_number }}
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease
+          cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/GridDownHub.apk"
+          "$ANDROID_HOME"/build-tools/*/apksigner verify --print-certs "$GITHUB_WORKSPACE/GridDownHub.apk" | head -5
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: GridDownHub.apk
+          retention-days: 30
+
+  pages:
+    needs: [web, android]
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: site
+      - uses: actions/download-artifact@v4
+        with:
+          name: apk
+          path: site
+      - name: Add the data packs
+        uses: actions/checkout@v4
+        with:
+          ref: data-packs
+          path: packs
+      - run: |
+          cp -r packs/data site/data
+          sha256sum site/GridDownHub.apk | cut -d' ' -f1 > site/GridDownHub.apk.sha256
+          du -sh site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  release:
+    needs: [android]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: apk
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Grid-Down Hub 1.0.${{ github.run_number }}
+          body: |
+            Android app. Install GridDownHub.apk on the phone (allow "install unknown apps" for your browser or Files app once).
+            The same app runs in any browser at https://xxxhekticxxx.github.io/${{ github.event.repository.name }}/
+          files: GridDownHub.apk

@@ -1,0 +1,152 @@
+{
+ "id": "hurricane",
+ "title": "Hurricane",
+ "source": {
+  "title": "Ready.gov: Hurricanes",
+  "url": "https://www.ready.gov/hurricanes",
+  "checked": "2026-10-27"
+ },
+ "sections": [
+  {
+   "title": "Start of season (June 1)",
+   "items": [
+    {
+     "id": "sign-up-for-alertlake",
+     "text": "Sign up for AlertLake"
+    },
+    {
+     "id": "program-the-noaa-radio",
+     "text": "Program the NOAA radio"
+    },
+    {
+     "id": "rotate-stored-water-and-food",
+     "text": "Rotate stored water and food"
+    },
+    {
+     "id": "service-the-generator-buy-stabilizer",
+     "text": "Service the generator, buy stabilizer"
+    },
+    {
+     "id": "restock-first-aid-and-trauma-kits",
+     "text": "Restock first aid and trauma kits"
+    },
+    {
+     "id": "check-insurance-photograph-property",
+     "text": "Check insurance, photograph property"
+    },
+    {
+     "id": "decide-your-three-shelter-options",
+     "text": "Decide your three shelter options"
+    }
+   ]
+  },
+  {
+   "title": "3 to 5 days out",
+   "items": [
+    {
+     "id": "fill-water-containers-and-camper-tank",
+     "text": "Fill water containers and camper tank"
+    },
+    {
+     "id": "fill-truck-gas-cans-propane",
+     "text": "Fill truck, gas cans, propane"
+    },
+    {
+     "id": "2-weeks-of-food-and-medicines",
+     "text": "2 weeks of food and medicines"
+    },
+    {
+     "id": "cash",
+     "text": "Cash"
+    },
+    {
+     "id": "charge-everything",
+     "text": "Charge everything"
+    },
+    {
+     "id": "buy-ice-freeze-jugs",
+     "text": "Buy ice / freeze jugs"
+    }
+   ]
+  },
+  {
+   "title": "1 to 2 days out",
+   "items": [
+    {
+     "id": "secure-the-camper-and-10-acres",
+     "text": "Secure the camper and 10 acres"
+    },
+    {
+     "id": "documents-bag-packed",
+     "text": "Documents bag packed"
+    },
+    {
+     "id": "truck-loaded",
+     "text": "Truck loaded"
+    },
+    {
+     "id": "dog-kit-packed",
+     "text": "Dog kit packed"
+    },
+    {
+     "id": "fridge-and-freezer-to-coldest",
+     "text": "Fridge and freezer to coldest"
+    },
+    {
+     "id": "confirm-where-you-will-ride-it-out",
+     "text": "Confirm where you will ride it out"
+    }
+   ]
+  },
+  {
+   "title": "Leave",
+   "items": [
+    {
+     "id": "leave-before-tropical-storm-winds",
+     "text": "Leave before tropical-storm winds"
+    },
+    {
+     "id": "tell-your-out-of-area-contact",
+     "text": "Tell your out-of-area contact"
+    },
+    {
+     "id": "turn-off-propane-at-the-tank",
+     "text": "Turn off propane at the tank"
+    },
+    {
+     "id": "shut-camper-main-breaker",
+     "text": "Shut camper main breaker"
+    }
+   ]
+  },
+  {
+   "title": "After",
+   "items": [
+    {
+     "id": "wait-for-all-clear",
+     "text": "Wait for all-clear"
+    },
+    {
+     "id": "check-for-downed-lines-gas-damage",
+     "text": "Check for downed lines, gas, damage"
+    },
+    {
+     "id": "photograph-damage",
+     "text": "Photograph damage"
+    },
+    {
+     "id": "generator-outside-20-ft-away",
+     "text": "Generator outside, 20+ ft away"
+    },
+    {
+     "id": "treat-water-until-confirmed-safe",
+     "text": "Treat water until confirmed safe"
+    },
+    {
+     "id": "check-food-temperatures",
+     "text": "Check food temperatures"
+    }
+   ]
+  }
+ ]
+}

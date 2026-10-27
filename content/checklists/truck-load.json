@@ -1,0 +1,336 @@
+{
+ "id": "truck-load",
+ "title": "Truck load (Go plan)",
+ "source": {
+  "title": "Ready.gov: Build a Kit",
+  "url": "https://www.ready.gov/kit",
+  "checked": "2026-10-27"
+ },
+ "sections": [
+  {
+   "title": "In the cab, within reach",
+   "items": [
+    {
+     "id": "phone-with-this-app-maps-downloaded",
+     "text": "Phone with this app, maps downloaded",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "power-bank-charged",
+     "text": "Power bank, charged",
+     "qty": "2"
+    },
+    {
+     "id": "12-v-usb-charger-and-cables",
+     "text": "12 V USB charger and cables"
+    },
+    {
+     "id": "trauma-kit-tourniquet-hemostatic-gauze-p",
+     "text": "Trauma kit: tourniquet, hemostatic gauze, pressure bandage, chest seals, shears, gloves"
+    },
+    {
+     "id": "water-for-the-drive",
+     "text": "Water for the drive"
+    },
+    {
+     "id": "canteen-full",
+     "text": "Canteen, full",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "wallet-id-cash-in-small-bills",
+     "text": "Wallet, ID, cash in small bills"
+    },
+    {
+     "id": "documents-bag-see-documents-checklist",
+     "text": "Documents bag (see Documents checklist)"
+    },
+    {
+     "id": "glock-9mm-carried-or-stored-legally-hols",
+     "text": "Glock 9mm, carried or stored legally, holster",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "paper-road-map-and-printed-route",
+     "text": "Paper road map and printed route"
+    },
+    {
+     "id": "dog-leash-and-harness",
+     "text": "Dog leash and harness"
+    },
+    {
+     "id": "sunglasses-hat",
+     "text": "Sunglasses, hat"
+    }
+   ]
+  },
+  {
+   "title": "Water and food",
+   "items": [
+    {
+     "id": "water-jugs",
+     "text": "Water jugs",
+     "qty": "3 gal per person per 3 days"
+    },
+    {
+     "id": "water-for-the-dog",
+     "text": "Water for the dog",
+     "qty": "2 gal per 3 days"
+    },
+    {
+     "id": "lifestraw",
+     "text": "LifeStraw",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "squeeze-filter-with-bags",
+     "text": "Squeeze filter with bags"
+    },
+    {
+     "id": "unscented-bleach-in-a-dropper-bottle-chl",
+     "text": "Unscented bleach in a dropper bottle, chlorine dioxide tablets"
+    },
+    {
+     "id": "food-bin-canned-meat-peanut-butter-oats-",
+     "text": "Food bin: canned meat, peanut butter, oats, rice, crackers"
+    },
+    {
+     "id": "manual-can-opener",
+     "text": "Manual can opener"
+    },
+    {
+     "id": "dog-food-2-weeks",
+     "text": "Dog food, 2 weeks"
+    },
+    {
+     "id": "bowls",
+     "text": "Bowls"
+    }
+   ]
+  },
+  {
+   "title": "Shelter and camp",
+   "items": [
+    {
+     "id": "camping-gear-tent-sleeping-bag-pad",
+     "text": "Camping gear: tent, sleeping bag, pad",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "tarp-10x12-and-50-ft-paracord",
+     "text": "Tarp 10x12 and 50 ft paracord"
+    },
+    {
+     "id": "stakes-extra-cord",
+     "text": "Stakes, extra cord"
+    },
+    {
+     "id": "mosquito-net-bug-net",
+     "text": "Mosquito net / bug net"
+    },
+    {
+     "id": "cot-or-hammock",
+     "text": "Cot or hammock"
+    },
+    {
+     "id": "pop-up-canopy-for-shade",
+     "text": "Pop-up canopy for shade"
+    },
+    {
+     "id": "headlamps-and-lantern-spare-batteries",
+     "text": "Headlamps and lantern, spare batteries"
+    }
+   ]
+  },
+  {
+   "title": "Fire and cooking",
+   "items": [
+    {
+     "id": "storm-matches",
+     "text": "Storm matches",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "ferro-rod-and-lighters",
+     "text": "Ferro rod and lighters"
+    },
+    {
+     "id": "camp-stove-and-fuel",
+     "text": "Camp stove and fuel"
+    },
+    {
+     "id": "pot-with-lid-cast-iron-skillet-utensils",
+     "text": "Pot with lid, cast iron skillet, utensils"
+    },
+    {
+     "id": "heavy-foil",
+     "text": "Heavy foil"
+    },
+    {
+     "id": "fire-extinguisher",
+     "text": "Fire extinguisher"
+    }
+   ]
+  },
+  {
+   "title": "Tools",
+   "items": [
+    {
+     "id": "hatchet",
+     "text": "Hatchet",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "machete",
+     "text": "Machete",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "sheaths-file-and-puck-sharpener",
+     "text": "Sheaths, file and puck sharpener"
+    },
+    {
+     "id": "shovel",
+     "text": "Shovel"
+    },
+    {
+     "id": "chainsaw-fuel-bar-oil-chaps-if-you-have-",
+     "text": "Chainsaw, fuel, bar oil, chaps (if you have one)"
+    },
+    {
+     "id": "ratchet-straps-and-tow-strap",
+     "text": "Ratchet straps and tow strap"
+    },
+    {
+     "id": "jump-pack-tire-plug-kit-12-v-compressor",
+     "text": "Jump pack, tire plug kit, 12 V compressor"
+    },
+    {
+     "id": "basic-tool-kit-duct-tape-zip-ties",
+     "text": "Basic tool kit, duct tape, zip ties"
+    },
+    {
+     "id": "work-gloves-safety-glasses",
+     "text": "Work gloves, safety glasses"
+    }
+   ]
+  },
+  {
+   "title": "Firearms",
+   "items": [
+    {
+     "id": "ar-15-in-a-case-secured-out-of-sight",
+     "text": "AR-15 in a case, secured, out of sight",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "22-rifle-in-a-case",
+     "text": ".22 rifle in a case",
+     "note": "You already have this",
+     "done": true
+    },
+    {
+     "id": "ammunition-in-a-sealed-ammo-can",
+     "text": "Ammunition in a sealed ammo can"
+    },
+    {
+     "id": "cleaning-kit-and-oil",
+     "text": "Cleaning kit and oil"
+    },
+    {
+     "id": "cable-locks",
+     "text": "Cable locks"
+    },
+    {
+     "id": "eye-and-ear-protection",
+     "text": "Eye and ear protection"
+    }
+   ]
+  },
+  {
+   "title": "Fuel",
+   "items": [
+    {
+     "id": "truck-tank-full",
+     "text": "Truck tank full"
+    },
+    {
+     "id": "gas-cans-upright-and-strapped-in-the-bed",
+     "text": "Gas cans, upright and strapped in the bed",
+     "qty": "2 x 5 gal"
+    },
+    {
+     "id": "siphon-pump",
+     "text": "Siphon pump"
+    },
+    {
+     "id": "funnel",
+     "text": "Funnel"
+    }
+   ]
+  },
+  {
+   "title": "Medical and hygiene",
+   "items": [
+    {
+     "id": "first-aid-kit-see-first-aid-kit-checklis",
+     "text": "First aid kit (see First aid kit checklist)"
+    },
+    {
+     "id": "medicines-30-days-and-the-medicine-list",
+     "text": "Medicines, 30 days, and the medicine list"
+    },
+    {
+     "id": "soap-hand-sanitizer-toilet-paper-trowel",
+     "text": "Soap, hand sanitizer, toilet paper, trowel"
+    },
+    {
+     "id": "insect-repellent-and-permethrin",
+     "text": "Insect repellent and permethrin"
+    },
+    {
+     "id": "sunscreen",
+     "text": "Sunscreen"
+    },
+    {
+     "id": "dog-first-aid-kit-and-his-medicines",
+     "text": "Dog first aid kit and his medicines"
+    }
+   ]
+  },
+  {
+   "title": "Comms and navigation",
+   "items": [
+    {
+     "id": "noaa-weather-radio",
+     "text": "NOAA weather radio"
+    },
+    {
+     "id": "frs-gmrs-radios-and-batteries",
+     "text": "FRS/GMRS radios and batteries"
+    },
+    {
+     "id": "baseplate-compass-set-to-6-9-w",
+     "text": "Baseplate compass set to 6.9° W"
+    },
+    {
+     "id": "whistle-and-signal-mirror",
+     "text": "Whistle and signal mirror"
+    },
+    {
+     "id": "printed-my-plan",
+     "text": "Printed My Plan"
+    }
+   ]
+  }
+ ]
+}

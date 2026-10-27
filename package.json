@@ -1,28 +1,49 @@
 {
   "name": "grid-down-hub",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
+  "description": "Offline emergency and survival hub for Sorrento, Lake County and the Ocala National Forest: maps, first aid, water, bushcraft, plants, plans and tools.",
   "scripts": {
-    "prebuild": "node scripts/build-content.mjs",
-    "predev": "node scripts/build-content.mjs",
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "content": "node scripts/build-content.mjs",
+    "check-content": "node scripts/check-content.mjs",
+    "dev": "npm run content && vite",
+    "build": "npm run content && npm run check-content && tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "test": "playwright test",
+    "android:sync": "npm run build && npx cap sync android"
   },
   "dependencies": {
-    "marked": "^18.1.2",
-    "minisearch": "^7.2.0",
-    "pdfjs-dist": "^6.4.299",
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "@capacitor-community/keep-awake": "8.0.1",
+    "@capacitor/android": "8.5.3",
+    "@capacitor/app": "8.1.2",
+    "@capacitor/core": "8.5.3",
+    "@capacitor/filesystem": "8.1.5",
+    "@capacitor/geolocation": "8.2.4",
+    "@capacitor/share": "8.0.3",
+    "fflate": "0.8.3",
+    "idb": "8.0.4",
+    "jspdf": "4.2.1",
+    "maplibre-gl": "5.24.0",
+    "marked": "18.1.2",
+    "mgrs": "2.2.0",
+    "minisearch": "7.2.0",
+    "pdfjs-dist": "5.7.284",
+    "pmtiles": "4.5.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react": "^6.1.2",
-    "typescript": "^7.0.2",
-    "vite": "^8.3.5",
-    "vite-plugin-pwa": "^2.0.0"
+    "@capacitor/cli": "8.5.3",
+    "@playwright/test": "1.63.0",
+    "@types/geojson": "^7946.0.16",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "gray-matter": "4.0.3",
+    "typescript": "5.9.3",
+    "vite": "8.3.5",
+    "vite-plugin-pwa": "2.0.0"
   }
 }

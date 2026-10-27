@@ -1,106 +1,38 @@
-import { useEffect } from 'react';
-import cards from '../../content/emergency.json';
-import { DISCLAIMER } from '../ui';
-import { Back } from '../ui';
-import { useMetronome } from '../lib/metronome';
-import { loadSettings } from '../lib/util';
+import { useEffect, useState } from 'react';
+import { Screen, Row, MedicalFooter } from '../ui/ui';
+import { Icon } from '../ui/icons';
+import { CprCard } from '../tools/Cpr';
+import { content, type Content } from '../lib/content';
+import { href } from '../lib/router';
 
-type Step = { h: string; t: string; m?: boolean; call?: string };
-type Card = { id: string; title: string; short: string; metronome?: boolean; source: string; url: string; steps: Step[] };
-const CARDS = cards as Card[];
-
-export default function Emergency({ id, step }: { id: string; step: number }) {
-  const card = CARDS.find((c) => c.id === id) || CARDS[0];
-  const n = card.steps.length;
-  const i = Math.min(Math.max(step, 1), n);
-  const s = card.steps[i - 1];
-  const settings = loadSettings();
-  const met = useMetronome(110, settings.sound);
-  const showMetro = !!card.metronome && !!s.m;
-
+export default function Emergency() {
+  const [c, setC] = useState<Content | null>(null);
   useEffect(() => {
-    if (!card.metronome) met.stop();
-  }, [card.metronome]); // eslint-disable-line
-
-  const go = (k: number) => (location.hash = `#/emergency/${card.id}/${k}`);
-
+    content().then(setC);
+  }, []);
+  const list = c ? c.articles.filter((a) => a.emergency).sort((x, y) => (x.emergency ?? 99) - (y.emergency ?? 99)) : [];
   return (
-    <div className="wrap">
-      <div className="bar">
-        <a className="back" href="#/" aria-label="Back to home">
-          <Back />
-        </a>
-        <h1>{card.title}</h1>
-        <span className="muted" style={{ fontWeight: 700 }}>
-          Step {i} of {n}
-        </span>
-      </div>
-      <div className="chips" role="tablist" aria-label="Other emergencies">
-        {CARDS.map((c) => (
-          <a key={c.id} className={'chip' + (c.id === card.id ? ' on' : '')} href={`#/emergency/${c.id}/1`}>
-            {c.short}
-          </a>
-        ))}
-      </div>
-      <div className="steps" aria-hidden="true">
-        {card.steps.map((_, k) => (
-          <i key={k} className={k < i ? 'on' : ''} />
-        ))}
-      </div>
-      <div className="card" style={{ padding: '1.2rem' }}>
-        <div className="tag">{i === 1 ? 'DO THIS FIRST' : `STEP ${i}`}</div>
-        <h2 className="big">{s.h}</h2>
-        <p className="bigp">{s.t}</p>
-        {s.call ? (
-          <p>
-            <a className="btn red" href={s.call}>
-              Call Poison Control
+    <Screen title="EMERGENCY" tone="red">
+      <div className="stack">
+        <div className="alert-strip">If phones work, call 911 first. Put it on speaker so your hands are free.</div>
+        <CprCard />
+        <div className="grid2">
+          {list.map((a) => (
+            <a key={a.id} className="row" href={href(`/a/${a.id}`)} style={{ minHeight: 68 }}>
+              <span className="row-main"><span className="row-title">{a.title}</span></span>
             </a>
-          </p>
-        ) : null}
-        {i === 1 && card.id === 'cpr' ? (
-          <p>
-            <a className="btn red" href="tel:911">
-              Call 911
-            </a>
-          </p>
-        ) : null}
-        <div className="muted">
-          Source:{' '}
-          <a href={card.url} target="_blank" rel="noopener">
-            {card.source}
-          </a>
+          ))}
         </div>
-      </div>
-      {showMetro ? (
-        <div className="metro">
-          <div className={'pulse' + (met.running ? ' beat' : '')} key={met.beat} aria-hidden="true">
-            110
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 800, fontSize: '1.1rem' }}>Metronome</div>
-            <div style={{ opacity: 0.85, fontSize: '.85rem' }}>110 beats per minute (range 100 to 120){settings.sound ? '' : ' · sound off in Settings'}</div>
-          </div>
-          <button className="btn" onClick={met.running ? met.stop : met.start} aria-pressed={met.running}>
-            {met.running ? 'Stop' : 'Start'}
-          </button>
+        <div className="grid2">
+          <a className="btn btn-primary" href={href('/tool/sos')}><Icon name="flash" /> SOS light + whistle</a>
+          <a className="btn btn-primary" href={href('/tool/timers?preset=tourniquet')}><Icon name="timer" /> Tourniquet timer</a>
+          <a className="btn" href={href('/map?layer=hospital')}><Icon name="map" /> Nearest hospital</a>
+          <a className="btn" href={href('/plan/medical')}><Icon name="lock" /> My medical info</a>
         </div>
-      ) : null}
-      <div className="nav2">
-        <button className="btn" style={{ flex: 1 }} disabled={i <= 1} onClick={() => go(i - 1)}>
-          Back
-        </button>
-        {i < n ? (
-          <button className="btn red" style={{ flex: 2 }} onClick={() => go(i + 1)}>
-            Next
-          </button>
-        ) : (
-          <a className="btn primary" style={{ flex: 2 }} href="#/firstaid">
-            More first aid
-          </a>
-        )}
+        <Row to="/cat/first-aid" title="All first aid" sub="Every first aid page, A to Z" />
+        <p className="small"><b>Poison Control</b> <a href="tel:18002221222">1-800-222-1222</a> · <b>Waterman ER</b> <a href="tel:3522533333">352-253-3333</a></p>
+        <MedicalFooter />
       </div>
-      <div className="foot">{DISCLAIMER}</div>
-    </div>
+    </Screen>
   );
 }

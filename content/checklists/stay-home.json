@@ -1,0 +1,171 @@
+{
+ "id": "stay-home",
+ "title": "Stay home (Stay plan)",
+ "source": {
+  "title": "Ready.gov: Build a Kit",
+  "url": "https://www.ready.gov/kit",
+  "checked": "2026-10-27"
+ },
+ "sections": [
+  {
+   "title": "Water",
+   "items": [
+    {
+     "id": "stored-water",
+     "text": "Stored water",
+     "qty": "2 weeks: 1 gal per person per day + ¾ gal for the dog"
+    },
+    {
+     "id": "camper-fresh-tank-filled",
+     "text": "Camper fresh tank filled"
+    },
+    {
+     "id": "bleach-unscented-under-a-year-old",
+     "text": "Bleach (unscented, under a year old)"
+    },
+    {
+     "id": "filter-and-spare-cartridges",
+     "text": "Filter and spare cartridges"
+    },
+    {
+     "id": "know-how-to-drain-the-water-heater",
+     "text": "Know how to drain the water heater"
+    }
+   ]
+  },
+  {
+   "title": "Food",
+   "items": [
+    {
+     "id": "2-week-pantry-see-building-a-two-week-pa",
+     "text": "2-week pantry (see Building a two-week pantry)"
+    },
+    {
+     "id": "dog-food-2-weeks",
+     "text": "Dog food, 2 weeks"
+    },
+    {
+     "id": "coolers-and-ice-frozen-jugs",
+     "text": "Coolers and ice / frozen jugs"
+    },
+    {
+     "id": "appliance-thermometers",
+     "text": "Appliance thermometers"
+    },
+    {
+     "id": "manual-can-openers-2",
+     "text": "Manual can openers (2)"
+    }
+   ]
+  },
+  {
+   "title": "Power and light",
+   "items": [
+    {
+     "id": "generator-serviced-oil-spare-plug",
+     "text": "Generator serviced, oil, spare plug"
+    },
+    {
+     "id": "gas-stabilized",
+     "text": "Gas, stabilized",
+     "qty": "3 to 4 cans"
+    },
+    {
+     "id": "propane-tanks-full",
+     "text": "Propane tanks full"
+    },
+    {
+     "id": "solar-power-station-charged-panels",
+     "text": "Solar power station charged, panels"
+    },
+    {
+     "id": "headlamps-lanterns-batteries",
+     "text": "Headlamps, lanterns, batteries"
+    },
+    {
+     "id": "heavy-duty-extension-cords-30-a-rv-adapt",
+     "text": "Heavy-duty extension cords, 30 A RV adapter"
+    },
+    {
+     "id": "battery-fans",
+     "text": "Battery fans"
+    }
+   ]
+  },
+  {
+   "title": "Safety",
+   "items": [
+    {
+     "id": "co-alarm-and-smoke-alarm-tested",
+     "text": "CO alarm and smoke alarm tested"
+    },
+    {
+     "id": "fire-extinguishers-2",
+     "text": "Fire extinguishers (2+)"
+    },
+    {
+     "id": "first-aid-kit-and-trauma-kit-stocked",
+     "text": "First aid kit and trauma kit stocked"
+    },
+    {
+     "id": "firearms-secured-lock-box",
+     "text": "Firearms secured, lock box"
+    },
+    {
+     "id": "locks-and-chain-for-generator-and-gate",
+     "text": "Locks and chain for generator and gate"
+    }
+   ]
+  },
+  {
+   "title": "Property",
+   "items": [
+    {
+     "id": "dead-limbs-over-camper-cut",
+     "text": "Dead limbs over camper cut"
+    },
+    {
+     "id": "ratchet-straps-and-anchors-for-the-campe",
+     "text": "Ratchet straps and anchors for the camper"
+    },
+    {
+     "id": "tarps-2x4s-screws-for-repairs",
+     "text": "Tarps, 2x4s, screws for repairs"
+    },
+    {
+     "id": "chainsaw-kit-ready",
+     "text": "Chainsaw kit ready"
+    },
+    {
+     "id": "loose-items-stored-or-tied-down",
+     "text": "Loose items stored or tied down"
+    }
+   ]
+  },
+  {
+   "title": "Comms",
+   "items": [
+    {
+     "id": "noaa-radio-programmed-same-012069",
+     "text": "NOAA radio programmed (SAME 012069)"
+    },
+    {
+     "id": "alertlake-signed-up",
+     "text": "AlertLake signed up"
+    },
+    {
+     "id": "phones-and-power-banks-charged",
+     "text": "Phones and power banks charged"
+    },
+    {
+     "id": "out-of-area-contact-knows-your-plan",
+     "text": "Out-of-area contact knows your plan"
+    },
+    {
+     "id": "where-you-will-go-if-the-camper-is-unsaf",
+     "text": "Where you will go if the camper is unsafe (My Plan → Evacuation)"
+    }
+   ]
+  }
+ ]
+}

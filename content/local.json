@@ -1,0 +1,36 @@
+{
+  "checked": "2026-10-27",
+  "area": "Sorrento, eastern Lake County, Florida (32776), and the Ocala National Forest",
+  "mapCenter": { "lon": -81.5603, "lat": 28.8075, "zoom": 12, "label": "Sorrento" },
+  "numbers": [
+    { "label": "Emergency", "phone": "911", "note": "Call or text 911. Text works when calls won't go through." },
+    { "label": "Florida Poison Control", "phone": "1-800-222-1222", "note": "Free, 24/7. Call before giving anything for a poisoning." },
+    { "label": "Lake County Citizens Information Line", "phone": "352-253-9999", "note": "Which shelters are open during an emergency." },
+    { "label": "Lake County Emergency Management", "phone": "352-343-9420", "note": "425 W Alfred St, Tavares" },
+    { "label": "Florida Fish and Wildlife (FWC) wildlife alert / nuisance gators", "phone": "888-404-3922", "note": "Wildlife conflicts, violations, nuisance alligators (866-392-4286)." },
+    { "label": "988 Suicide & Crisis Lifeline", "phone": "988", "note": "Call or text. Also for disaster stress: Disaster Distress Helpline 1-800-985-5990." }
+  ],
+  "hospitals": [
+    { "name": "AdventHealth Waterman", "role": "Nearest ER", "address": "1000 Waterman Way, Tavares, FL 34778", "phone": "352-253-3333", "lon": -81.71214, "lat": 28.82414, "er": true },
+    { "name": "AdventHealth Apopka", "role": "Backup ER", "address": "2100 Ocoee Apopka Rd, Apopka, FL 32703", "phone": "407-609-7000", "lon": -81.54027, "lat": 28.64923, "er": true, "note": "Moved from N Park Ave in 2019; the old address is not a hospital." }
+  ],
+  "noaa": {
+    "same": "012069",
+    "sameLabel": "Lake County, FL",
+    "stations": [
+      { "call": "KIH63", "city": "Orlando", "mhz": "162.475", "channel": 4, "role": "Primary", "covers": "Lake, Orange, Osceola, Seminole, Polk, Volusia, Brevard" },
+      { "call": "KIH26", "city": "Daytona Beach", "mhz": "162.400", "channel": 1, "role": "Backup", "covers": "Lake, Brevard, Orange, Seminole, Putnam, Volusia, Flagler" }
+    ],
+    "source": { "title": "NWS Melbourne, NOAA Weather Radio", "url": "https://www.weather.gov/mlb/nwr", "checked": "2026-10-27" }
+  },
+  "alerts": [
+    { "name": "AlertLake", "url": "https://alertlake.com", "note": "Lake County's free emergency alerts by text, call and email. Sign up while you have signal." },
+    { "name": "FloridaDisaster.org", "url": "https://www.floridadisaster.org", "note": "State emergency information and the Know Your Zone tool." }
+  ],
+  "sources": [
+    { "title": "Lake County EM, List of Emergency Shelters", "url": "https://www.lakecountyfl.gov/542/List-of-Emergency-Shelters", "checked": "2026-10-27" },
+    { "title": "Lake County EM, Preparedness & Safety", "url": "https://www.lakecountyfl.gov/195/Preparedness-Safety", "checked": "2026-10-27" },
+    { "title": "AdventHealth Apopka", "url": "https://www.adventhealth.com/locations/hospitals/apopka/news/adventhealth-apopka-opens-doors-grand-opening-preview", "checked": "2026-10-27" },
+    { "title": "ClickOrlando, Lake County shelters for Hurricane Milton (pet-friendly list)", "url": "https://www.clickorlando.com/news/local/2024/10/07/county-by-county-heres-a-list-of-emergency-shelters-in-central-florida-ahead-of-hurricane-milton/", "checked": "2026-10-27" }
+  ]
+}

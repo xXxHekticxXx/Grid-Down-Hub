@@ -1,0 +1,96 @@
+{
+ "id": "dog-supplies",
+ "title": "Dog supplies",
+ "source": {
+  "title": "Ready.gov: Prepare Your Pets for Disasters",
+  "url": "https://www.ready.gov/pets",
+  "checked": "2026-10-27"
+ },
+ "sections": [
+  {
+   "title": "Everyday",
+   "items": [
+    {
+     "id": "food",
+     "text": "Food",
+     "qty": "2 weeks"
+    },
+    {
+     "id": "water",
+     "text": "Water",
+     "qty": "¾ gal per day (90 lb)"
+    },
+    {
+     "id": "bowls-collapsible-for-travel",
+     "text": "Bowls (collapsible for travel)"
+    },
+    {
+     "id": "leash-harness-and-spare-collar-with-id-t",
+     "text": "Leash, harness and spare collar with ID tags"
+    },
+    {
+     "id": "crate-that-fits-the-truck",
+     "text": "Crate that fits the truck"
+    },
+    {
+     "id": "waste-bags",
+     "text": "Waste bags"
+    },
+    {
+     "id": "towel-and-bedding",
+     "text": "Towel and bedding"
+    },
+    {
+     "id": "toy-or-chew",
+     "text": "Toy or chew"
+    }
+   ]
+  },
+  {
+   "title": "Health",
+   "items": [
+    {
+     "id": "flea-tick-and-heartworm-preventives-30-d",
+     "text": "Flea, tick and heartworm preventives, 30 days"
+    },
+    {
+     "id": "prescriptions-30-days",
+     "text": "Prescriptions, 30 days"
+    },
+    {
+     "id": "dog-first-aid-kit-gauze-vet-wrap-soft-mu",
+     "text": "Dog first aid kit: gauze, vet wrap, soft muzzle, saline, tweezers, tick tool, thermometer"
+    },
+    {
+     "id": "vet-and-emergency-vet-numbers",
+     "text": "Vet and emergency vet numbers"
+    },
+    {
+     "id": "aspca-poison-control-888-426-4435",
+     "text": "ASPCA Poison Control 888-426-4435"
+    }
+   ]
+  },
+  {
+   "title": "Records",
+   "items": [
+    {
+     "id": "rabies-certificate",
+     "text": "Rabies certificate"
+    },
+    {
+     "id": "vaccination-record",
+     "text": "Vaccination record"
+    },
+    {
+     "id": "microchip-number-registered-with-current",
+     "text": "Microchip number registered with current phone"
+    },
+    {
+     "id": "recent-photo-of-him-with-you",
+     "text": "Recent photo of him with you"
+    }
+   ]
+  }
+ ]
+}

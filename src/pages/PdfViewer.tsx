@@ -1,95 +1,113 @@
 import { useEffect, useRef, useState } from 'react';
+import type { PDFDocumentProxy } from 'pdfjs-dist';
+import { Screen, Btn, toast } from '../ui/ui';
+import { content } from '../lib/content';
+import { packFile } from '../lib/packs';
+import { get } from '../lib/db';
+import { getFile } from '../lib/opfs';
+import { openPdf } from '../lib/pdf';
+import { saveFile } from '../lib/native';
 
-type Doc = { numPages: number; getPage: (n: number) => Promise<any> };
+async function fileFor(docId: string): Promise<{ title: string; file: File | null; note?: string; name: string }> {
+  if (docId.startsWith('user:')) {
+    const rec = await get<{ title: string; opfs: string; name: string }>('files', docId.slice(5));
+    return { title: rec?.title ?? 'PDF', file: rec ? await getFile(rec.opfs) : null, name: rec?.name ?? 'document.pdf' };
+  }
+  const c = await content();
+  const d = c.library.find((x) => x.id === docId);
+  if (!d || !d.pack || !d.file) return { title: 'Not found', file: null, name: '' };
+  return { title: d.title, file: await packFile(d.pack, d.file), note: d.note, name: d.file };
+}
 
-export default function PdfViewer({ source }: { source: { url: string } | { data: ArrayBuffer } }) {
-  const box = useRef<HTMLDivElement>(null);
-  const canvas = useRef<HTMLCanvasElement>(null);
-  const [doc, setDoc] = useState<Doc | null>(null);
-  const [page, setPage] = useState(1);
-  const [zoom, setZoom] = useState(1);
-  const [err, setErr] = useState('');
-  const [busy, setBusy] = useState(true);
-
+function Page({ doc, n, scale }: { doc: PDFDocumentProxy; n: number; scale: number }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const holder = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
-    let dead = false;
-    (async () => {
-      try {
-        const pdfjs = await import('pdfjs-dist');
-        const worker = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url')).default;
-        pdfjs.GlobalWorkerOptions.workerSrc = worker;
-        const task = pdfjs.getDocument('url' in source ? { url: source.url } : { data: new Uint8Array(source.data.slice(0)) });
-        const d = await task.promise;
-        if (!dead) {
-          setDoc(d as unknown as Doc);
-          setBusy(false);
-        }
-      } catch (e) {
-        if (!dead) {
-          setErr('Could not open this PDF. ' + (e instanceof Error ? e.message : ''));
-          setBusy(false);
-        }
-      }
-    })();
-    return () => {
-      dead = true;
-    };
-  }, [source]);
-
+    const io = new IntersectionObserver((es) => es.some((e) => e.isIntersecting) && setVisible(true), { rootMargin: '600px' });
+    if (holder.current) io.observe(holder.current);
+    return () => io.disconnect();
+  }, []);
   useEffect(() => {
-    if (!doc || !canvas.current || !box.current) return;
+    if (!visible) return;
     let task: { cancel: () => void; promise: Promise<unknown> } | null = null;
     let dead = false;
     (async () => {
-      const p = await doc.getPage(page);
-      const base = p.getViewport({ scale: 1 });
-      const fit = (box.current!.clientWidth - 16) / base.width;
-      const dpr = window.devicePixelRatio || 1;
-      const vp = p.getViewport({ scale: fit * zoom * dpr });
-      const c = canvas.current!;
-      c.width = Math.floor(vp.width);
-      c.height = Math.floor(vp.height);
-      c.style.width = Math.floor(vp.width / dpr) + 'px';
-      c.style.height = Math.floor(vp.height / dpr) + 'px';
-      task = p.render({ canvasContext: c.getContext('2d')!, canvas: c, viewport: vp });
+      const p = await doc.getPage(n);
+      if (dead || !ref.current) return;
+      const width = Math.min(holder.current?.clientWidth || 800, 1400) * scale;
+      const vp0 = p.getViewport({ scale: 1 });
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const vp = p.getViewport({ scale: (width / vp0.width) * dpr });
+      const cv = ref.current;
+      cv.width = vp.width;
+      cv.height = vp.height;
+      cv.style.width = `${vp.width / dpr}px`;
+      task = p.render({ canvas: cv, canvasContext: cv.getContext('2d')!, viewport: vp } as Parameters<typeof p.render>[0]);
       try {
-        await task!.promise;
+        await task.promise;
       } catch {
         /* cancelled */
       }
-      if (dead) return;
     })();
     return () => {
       dead = true;
       task?.cancel();
     };
-  }, [doc, page, zoom]);
-
-  if (err) return <div className="notice">{err}</div>;
-  const n = doc?.numPages ?? 0;
+  }, [visible, doc, n, scale]);
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
-      <div className="row">
-        <button className="btn" disabled={page <= 1} onClick={() => setPage(page - 1)} aria-label="Previous page">
-          ‹
-        </button>
-        <input style={{ width: '5.5rem', textAlign: 'center' }} inputMode="numeric" value={page} onChange={(e) => { const v = parseInt(e.target.value, 10); if (v >= 1 && v <= n) setPage(v); }} aria-label="Page number" />
-        <span className="muted">of {n || '…'}</span>
-        <button className="btn" disabled={page >= n} onClick={() => setPage(page + 1)} aria-label="Next page">
-          ›
-        </button>
-        <span className="grow" />
-        <button className="btn" onClick={() => setZoom(Math.max(0.5, zoom - 0.25))} aria-label="Zoom out">
-          −
-        </button>
-        <button className="btn" onClick={() => setZoom(Math.min(4, zoom + 0.25))} aria-label="Zoom in">
-          +
-        </button>
-      </div>
-      <div className="pdfbox" ref={box}>
-        {busy ? <div style={{ color: '#fff', padding: '2rem' }}>Opening…</div> : null}
-        <canvas ref={canvas} />
-      </div>
+    <div ref={holder} id={`page-${n}`} style={{ minHeight: 300 }}>
+      <canvas ref={ref} className="pdf-page" aria-label={`Page ${n}`} />
+      <div className="small muted center" style={{ marginBottom: 10 }}>Page {n}</div>
     </div>
+  );
+}
+
+export default function PdfViewer({ docId, page }: { docId: string; page: number }) {
+  const [info, setInfo] = useState<{ title: string; note?: string; name: string; file: File | null } | null>(null);
+  const [doc, setDoc] = useState<PDFDocumentProxy | null>(null);
+  const [scale, setScale] = useState(1);
+  const [jump, setJump] = useState(String(page));
+  const [err, setErr] = useState('');
+  useEffect(() => {
+    let d: PDFDocumentProxy | null = null;
+    fileFor(docId).then(async (i) => {
+      setInfo(i);
+      if (!i.file) return setErr('This PDF is not on the device yet. Download the Library pack in Settings > Offline data.');
+      try {
+        d = await openPdf(await i.file.arrayBuffer());
+        setDoc(d);
+      } catch (e) {
+        setErr('Could not open this PDF: ' + (e as Error).message);
+      }
+    });
+    return () => {
+      void d?.destroy();
+    };
+  }, [docId]);
+  useEffect(() => {
+    if (doc && page > 1) setTimeout(() => document.getElementById(`page-${page}`)?.scrollIntoView(), 300);
+  }, [doc, page]);
+  return (
+    <Screen title={info?.title ?? 'PDF'} crumb="Library"
+      actions={<>
+        <button className="icon-btn" aria-label="Smaller" onClick={() => setScale((s) => Math.max(0.5, s - 0.25))}>−</button>
+        <button className="icon-btn" aria-label="Bigger" onClick={() => setScale((s) => Math.min(4, s + 0.25))}>+</button>
+      </>}>
+      {info?.note && <div className="book-notice">{info.note}</div>}
+      {err && <p className="card card-warn">{err}</p>}
+      {doc && (
+        <>
+          <form className="btnrow" style={{ marginBottom: 10 }} onSubmit={(e) => { e.preventDefault(); document.getElementById(`page-${jump}`)?.scrollIntoView(); }}>
+            <label className="field" style={{ flex: '0 1 160px' }}><span className="field-label">Go to page (1–{doc.numPages})</span><input type="number" min={1} max={doc.numPages} value={jump} onChange={(e) => setJump(e.target.value)} /></label>
+            <Btn type="submit">Go</Btn>
+            <Btn icon="print" onClick={async () => info?.file && toast(await saveFile(info.name, info.file))}>Save / print original</Btn>
+          </form>
+          <div style={{ overflowX: scale > 1 ? 'auto' : 'visible' }}>
+            {Array.from({ length: doc.numPages }, (_, i) => <Page key={`${i}-${scale}`} doc={doc} n={i + 1} scale={scale} />)}
+          </div>
+        </>
+      )}
+    </Screen>
   );
 }

@@ -1,0 +1,97 @@
+{
+ "id": "go-bag",
+ "title": "Go bag (one person)",
+ "source": {
+  "title": "Ready.gov: Build a Kit",
+  "url": "https://www.ready.gov/kit",
+  "checked": "2026-10-27"
+ },
+ "sections": [
+  {
+   "title": "Essentials",
+   "items": [
+    {
+     "id": "water",
+     "text": "Water",
+     "qty": "3 liters"
+    },
+    {
+     "id": "lifestraw-or-filter-purification-tablets",
+     "text": "LifeStraw or filter, purification tablets"
+    },
+    {
+     "id": "3-days-of-high-calorie-food",
+     "text": "3 days of high-calorie food"
+    },
+    {
+     "id": "first-aid-kit-with-tourniquet",
+     "text": "First aid kit with tourniquet"
+    },
+    {
+     "id": "medicines-7-days",
+     "text": "Medicines, 7 days"
+    },
+    {
+     "id": "headlamp-and-batteries",
+     "text": "Headlamp and batteries"
+    },
+    {
+     "id": "lighter-storm-matches-ferro-rod",
+     "text": "Lighter, storm matches, ferro rod"
+    },
+    {
+     "id": "knife-or-multitool",
+     "text": "Knife or multitool"
+    },
+    {
+     "id": "poncho-and-emergency-blanket",
+     "text": "Poncho and emergency blanket"
+    },
+    {
+     "id": "tarp-and-50-ft-cord",
+     "text": "Tarp and 50 ft cord"
+    },
+    {
+     "id": "whistle-signal-mirror",
+     "text": "Whistle, signal mirror"
+    },
+    {
+     "id": "compass-and-printed-map",
+     "text": "Compass and printed map"
+    },
+    {
+     "id": "phone-power-bank-cables",
+     "text": "Phone, power bank, cables"
+    },
+    {
+     "id": "cash-id-copies",
+     "text": "Cash, ID copies"
+    },
+    {
+     "id": "change-of-clothes-3-pairs-of-socks",
+     "text": "Change of clothes, 3 pairs of socks"
+    },
+    {
+     "id": "hat-sunscreen-repellent",
+     "text": "Hat, sunscreen, repellent"
+    },
+    {
+     "id": "toilet-paper-sanitizer-trowel",
+     "text": "Toilet paper, sanitizer, trowel"
+    },
+    {
+     "id": "n95-masks",
+     "text": "N95 masks"
+    },
+    {
+     "id": "work-gloves",
+     "text": "Work gloves"
+    },
+    {
+     "id": "notebook-and-pencil",
+     "text": "Notebook and pencil"
+    }
+   ]
+  }
+ ]
+}

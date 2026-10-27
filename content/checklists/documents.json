@@ -1,0 +1,73 @@
+{
+ "id": "documents",
+ "title": "Documents bag",
+ "source": {
+  "title": "Ready.gov: Build a Kit",
+  "url": "https://www.ready.gov/kit",
+  "checked": "2026-10-27"
+ },
+ "sections": [
+  {
+   "title": "Originals or copies in a waterproof bag",
+   "items": [
+    {
+     "id": "driver-license-id",
+     "text": "Driver license / ID"
+    },
+    {
+     "id": "birth-certificate-social-security-card-c",
+     "text": "Birth certificate, Social Security card (copies)"
+    },
+    {
+     "id": "insurance-policies-truck-camper-property",
+     "text": "Insurance policies: truck, camper, property, health"
+    },
+    {
+     "id": "truck-and-camper-titles-and-registration",
+     "text": "Truck and camper titles and registration"
+    },
+    {
+     "id": "property-deed-or-lease",
+     "text": "Property deed or lease"
+    },
+    {
+     "id": "medical-list-medicines-conditions-doctor",
+     "text": "Medical list: medicines, conditions, doctors"
+    },
+    {
+     "id": "dog-records",
+     "text": "Dog records"
+    },
+    {
+     "id": "bank-and-credit-card-contact-numbers",
+     "text": "Bank and credit card contact numbers"
+    },
+    {
+     "id": "business-documents-and-customer-list-cyp",
+     "text": "Business documents and customer list (Cypress Knee)"
+    },
+    {
+     "id": "phone-numbers-on-paper",
+     "text": "Phone numbers on paper"
+    },
+    {
+     "id": "cash-in-small-bills",
+     "text": "Cash in small bills"
+    }
+   ]
+  },
+  {
+   "title": "Digital backup",
+   "items": [
+    {
+     "id": "photos-of-all-documents-in-a-password-pr",
+     "text": "Photos of all documents in a password-protected place"
+    },
+    {
+     "id": "this-app-s-encrypted-export-my-plan-back",
+     "text": "This app's encrypted export (My Plan → Back up)"
+    }
+   ]
+  }
+ ]
+}
