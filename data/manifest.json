@@ -1,0 +1,720 @@
+{
+ "version": 1,
+ "built": "2026-10-27T13:35:32Z",
+ "osmDate": "2026-10-25",
+ "contentChecked": "2026-10-27",
+ "packs": [
+  {
+   "id": "maps-base",
+   "title": "Florida base map",
+   "description": "All of Florida, streets to zoom 13 (shown down to street level), for routing anywhere in the state",
+   "required": true,
+   "bytes": 220841981,
+   "files": [
+    {
+     "name": "florida-base.pmtiles",
+     "bytes": 220841981,
+     "sha256": "f2b4c0d7dab0eee43412c625426992e1c18a7ad2b9978e977d707b290952cbec",
+     "chunks": [
+      {
+       "bytes": 33554432,
+       "sha256": "decb77954eb93833cd06b6e3a0e0d635ce0ee3878fb2ca816b93e9e707a9690f"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "b4231aedce0b21aa234e68f0a9f7f42a74762a7d9440c01eab5758aca06479a5"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "786bc3517ca772263806d92f6f0e616cdd7224c2212b3fed1053cc58dd227555"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "f75347bd9411090bb014e47f92517a75ae3a5658a570b8bed4a41601cc8f510b"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "ffe3b8110b3a03a8e4dc63397726f55b1e0e8c594a04693d7c7830e3a86b2763"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "d63a8650e8fb6b0c8855c6e9c13dff8e6749d3e5452475b5a7d4bc94b284f099"
+      },
+      {
+       "bytes": 19515389,
+       "sha256": "f93990cc61c5ee000bbc803d6281d03f041763311392ef103fe449b6ece77598"
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-25"
+  },
+  {
+   "id": "maps-detail",
+   "title": "Lake County to Ocala National Forest detail map",
+   "description": "Full detail to zoom 15: every street, forest road, trail and building from Clermont and Sanford north past Salt Springs",
+   "required": true,
+   "bytes": 154560639,
+   "files": [
+    {
+     "name": "lake-ocala-detail.pmtiles",
+     "bytes": 154560639,
+     "sha256": "7c783c726d2c9247a355cf0ecc490ea1e935824ff91401de31b567d4921c36ad",
+     "chunks": [
+      {
+       "bytes": 33554432,
+       "sha256": "0f455916524b8ea76de00c20e512306e6daa8dc6276c4210d45f9fe0cf64eb18"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "069397da2b3070e145cf39e7de108188fb4d992166802e9ad25b88ec43395500"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "7025d2bfd5be04e2491dbd6beedb1e36925204936391206abc4b6dea7b579ebd"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "dec8177795c844fcb410a5e73e0c8824faf1b6750ec3ddac84b15ee619165402"
+      },
+      {
+       "bytes": 20342911,
+       "sha256": "8b6a3af6e9de8a3e9a916c0d288ba57bd18fbf9e2a02fe4963b67af439618e51"
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-25"
+  },
+  {
+   "id": "topo-overlay",
+   "title": "USGS topo overlay",
+   "description": "27 USGS US Topo quads (home area and Ocala NF) as a map overlay to zoom 16",
+   "required": true,
+   "bytes": 90446845,
+   "files": [
+    {
+     "name": "usgs-topo.pmtiles",
+     "bytes": 90446845,
+     "sha256": "aad39c6124b9ef0b195288b481908ff57767bdf3f6aea599513e6b673a86bd1d",
+     "chunks": [
+      {
+       "bytes": 33554432,
+       "sha256": "338560021c30da38c587eb1e190b694bd8b6a4e2b5667b045d84d79e26711981"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "9bede306ccbf84818dfbf601b279b9f2d7ed775a239ee4ec731878b072fb4f4f"
+      },
+      {
+       "bytes": 23337981,
+       "sha256": "7b0bda82f8d00894e773fd1398092d19eccee5b019561e2fb7e7c0145f669e6e"
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-25"
+  },
+  {
+   "id": "pois",
+   "title": "Map places",
+   "description": "Hospitals, ERs, urgent care, fire, police, pharmacies, gas, grocery, hardware, springs, boat ramps, campgrounds, parks, churches, schools and Lake County shelters",
+   "required": true,
+   "bytes": 5770697,
+   "files": [
+    {
+     "name": "poi-hospital.geojson",
+     "bytes": 186176,
+     "sha256": "7cb2fee63dd50dbe245387fae95053b2234c8a4010f48876cb4965bd1d348dda",
+     "chunks": [
+      {
+       "bytes": 186176,
+       "sha256": "7cb2fee63dd50dbe245387fae95053b2234c8a4010f48876cb4965bd1d348dda"
+      }
+     ]
+    },
+    {
+     "name": "poi-urgent_care.geojson",
+     "bytes": 38839,
+     "sha256": "e27a4a97d644809128ce1551ff29cfb8d515fb14f0988ca481148558b8ac2c5c",
+     "chunks": [
+      {
+       "bytes": 38839,
+       "sha256": "e27a4a97d644809128ce1551ff29cfb8d515fb14f0988ca481148558b8ac2c5c"
+      }
+     ]
+    },
+    {
+     "name": "poi-pharmacy.geojson",
+     "bytes": 315156,
+     "sha256": "5eaae4dda68d99f7a97110ecb27ed57a64cda5919f9b858a01ffbc8a7977ddc2",
+     "chunks": [
+      {
+       "bytes": 315156,
+       "sha256": "5eaae4dda68d99f7a97110ecb27ed57a64cda5919f9b858a01ffbc8a7977ddc2"
+      }
+     ]
+    },
+    {
+     "name": "poi-shelter.geojson",
+     "bytes": 5334,
+     "sha256": "87cb3b9dd5bf713b17ed2405bffbe7e391834dc80afece9923c1c99b893d7835",
+     "chunks": [
+      {
+       "bytes": 5334,
+       "sha256": "87cb3b9dd5bf713b17ed2405bffbe7e391834dc80afece9923c1c99b893d7835"
+      }
+     ]
+    },
+    {
+     "name": "poi-fire.geojson",
+     "bytes": 292318,
+     "sha256": "30689a39c3d11151d5ea9e2920105f06f8213aa9af14ed3b26f865b91c7f70de",
+     "chunks": [
+      {
+       "bytes": 292318,
+       "sha256": "30689a39c3d11151d5ea9e2920105f06f8213aa9af14ed3b26f865b91c7f70de"
+      }
+     ]
+    },
+    {
+     "name": "poi-police.geojson",
+     "bytes": 147426,
+     "sha256": "3f033d30e70793aac4cd45f6ff25d1c95c75847ff2f85d3195cb701944108c1e",
+     "chunks": [
+      {
+       "bytes": 147426,
+       "sha256": "3f033d30e70793aac4cd45f6ff25d1c95c75847ff2f85d3195cb701944108c1e"
+      }
+     ]
+    },
+    {
+     "name": "poi-ranger.geojson",
+     "bytes": 6970,
+     "sha256": "98020786c229c2ef80f1fd45bbeeffb738831a95c2954521023ec5584538b16d",
+     "chunks": [
+      {
+       "bytes": 6970,
+       "sha256": "98020786c229c2ef80f1fd45bbeeffb738831a95c2954521023ec5584538b16d"
+      }
+     ]
+    },
+    {
+     "name": "poi-gas.geojson",
+     "bytes": 995564,
+     "sha256": "060f1bc80bd841da612c62b43ff2c7f527c8b60897e16723ba267e9ac5e2e3fa",
+     "chunks": [
+      {
+       "bytes": 995564,
+       "sha256": "060f1bc80bd841da612c62b43ff2c7f527c8b60897e16723ba267e9ac5e2e3fa"
+      }
+     ]
+    },
+    {
+     "name": "poi-grocery.geojson",
+     "bytes": 905527,
+     "sha256": "6eb09da5c0bff0fb0c7eff5473d881ece31e80033f8f17a89c3e260fc88599aa",
+     "chunks": [
+      {
+       "bytes": 905527,
+       "sha256": "6eb09da5c0bff0fb0c7eff5473d881ece31e80033f8f17a89c3e260fc88599aa"
+      }
+     ]
+    },
+    {
+     "name": "poi-store.geojson",
+     "bytes": 133504,
+     "sha256": "c68aea09f5a78c2e36889867b4095cc80301ac42734aaf5f7c3b097b7d29c468",
+     "chunks": [
+      {
+       "bytes": 133504,
+       "sha256": "c68aea09f5a78c2e36889867b4095cc80301ac42734aaf5f7c3b097b7d29c468"
+      }
+     ]
+    },
+    {
+     "name": "poi-hardware.geojson",
+     "bytes": 248174,
+     "sha256": "a12ae113b02d7bc2a656db3e22490e0b07ca9747873f2f7628a7615475cfdc17",
+     "chunks": [
+      {
+       "bytes": 248174,
+       "sha256": "a12ae113b02d7bc2a656db3e22490e0b07ca9747873f2f7628a7615475cfdc17"
+      }
+     ]
+    },
+    {
+     "name": "poi-outdoor.geojson",
+     "bytes": 19440,
+     "sha256": "5a48368cc37f8684d21e6daa903e9ec7e5111f4b8f45d235af43dfa8a1650e98",
+     "chunks": [
+      {
+       "bytes": 19440,
+       "sha256": "5a48368cc37f8684d21e6daa903e9ec7e5111f4b8f45d235af43dfa8a1650e98"
+      }
+     ]
+    },
+    {
+     "name": "poi-spring.geojson",
+     "bytes": 158209,
+     "sha256": "1dc28b29ad202172b177221a869fb3aa5fb15261e83732201156a97c30828bde",
+     "chunks": [
+      {
+       "bytes": 158209,
+       "sha256": "1dc28b29ad202172b177221a869fb3aa5fb15261e83732201156a97c30828bde"
+      }
+     ]
+    },
+    {
+     "name": "poi-water_tap.geojson",
+     "bytes": 28927,
+     "sha256": "5abbeb6bbd3bc03d3f2aa486696e2785a00be14f67981bd5af5cce340ed17953",
+     "chunks": [
+      {
+       "bytes": 28927,
+       "sha256": "5abbeb6bbd3bc03d3f2aa486696e2785a00be14f67981bd5af5cce340ed17953"
+      }
+     ]
+    },
+    {
+     "name": "poi-boat_ramp.geojson",
+     "bytes": 16579,
+     "sha256": "5508ef2d6fde3814705b47c0be5495809db791b4ad1d7f58a10ce5a4b0db1f7b",
+     "chunks": [
+      {
+       "bytes": 16579,
+       "sha256": "5508ef2d6fde3814705b47c0be5495809db791b4ad1d7f58a10ce5a4b0db1f7b"
+      }
+     ]
+    },
+    {
+     "name": "poi-lake.geojson",
+     "bytes": 215662,
+     "sha256": "848dc7fa41573e06dfa5cc8d89dd2a2502d444b58aafaf7fce15448f055dcb87",
+     "chunks": [
+      {
+       "bytes": 215662,
+       "sha256": "848dc7fa41573e06dfa5cc8d89dd2a2502d444b58aafaf7fce15448f055dcb87"
+      }
+     ]
+    },
+    {
+     "name": "poi-campground.geojson",
+     "bytes": 201533,
+     "sha256": "3caa0f201d5025740efa67604998d45786f4be6a36bd88e1ca036085bc5c00da",
+     "chunks": [
+      {
+       "bytes": 201533,
+       "sha256": "3caa0f201d5025740efa67604998d45786f4be6a36bd88e1ca036085bc5c00da"
+      }
+     ]
+    },
+    {
+     "name": "poi-park.geojson",
+     "bytes": 209292,
+     "sha256": "ac433dfb51620794db772827d6bafa45f561c298140adf2d50284de73354ab79",
+     "chunks": [
+      {
+       "bytes": 209292,
+       "sha256": "ac433dfb51620794db772827d6bafa45f561c298140adf2d50284de73354ab79"
+      }
+     ]
+    },
+    {
+     "name": "poi-church.geojson",
+     "bytes": 277291,
+     "sha256": "5956d94205c201ddce745642aba4d5e777572a2e40497a4946aea24bf3edf5dd",
+     "chunks": [
+      {
+       "bytes": 277291,
+       "sha256": "5956d94205c201ddce745642aba4d5e777572a2e40497a4946aea24bf3edf5dd"
+      }
+     ]
+    },
+    {
+     "name": "poi-school.geojson",
+     "bytes": 132314,
+     "sha256": "7338c37cb8a694cfe6e5941903db38879f4b7b5adc51f5570c6d98f6e3f96fdb",
+     "chunks": [
+      {
+       "bytes": 132314,
+       "sha256": "7338c37cb8a694cfe6e5941903db38879f4b7b5adc51f5570c6d98f6e3f96fdb"
+      }
+     ]
+    },
+    {
+     "name": "pois-index.json",
+     "bytes": 1236462,
+     "sha256": "28d2a4aa970c9f6119913defc3d3fc745bfce99d10623de55357d3916776cd86",
+     "chunks": [
+      {
+       "bytes": 1236462,
+       "sha256": "28d2a4aa970c9f6119913defc3d3fc745bfce99d10623de55357d3916776cd86"
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-25"
+  },
+  {
+   "id": "library",
+   "title": "Library: survival and first aid manuals",
+   "description": "ATP 3-50.21 Survival, ATP 4-02.11 Casualty Response and First Aid, FEMA P-2064 Are You Ready? (original PDFs)",
+   "required": true,
+   "bytes": 40671392,
+   "files": [
+    {
+     "name": "ATP_3-50.21_Survival.pdf",
+     "bytes": 23772309,
+     "sha256": "440035273e6e2ddab5f6ba8b79a4b0d5c901f3804538998381b343092512a813",
+     "chunks": [
+      {
+       "bytes": 23772309,
+       "sha256": "440035273e6e2ddab5f6ba8b79a4b0d5c901f3804538998381b343092512a813"
+      }
+     ]
+    },
+    {
+     "name": "ATP_4-02.11_Casualty_Response_First_Aid.pdf",
+     "bytes": 12665561,
+     "sha256": "a4a0650f5bb14c1c7163b9b1e9f08bcc012fb3fe49ea4432f0ccaffb9af86542",
+     "chunks": [
+      {
+       "bytes": 12665561,
+       "sha256": "a4a0650f5bb14c1c7163b9b1e9f08bcc012fb3fe49ea4432f0ccaffb9af86542"
+      }
+     ]
+    },
+    {
+     "name": "FEMA_P-2064_Are_You_Ready.pdf",
+     "bytes": 4233522,
+     "sha256": "3873f8ae7528389adacab72259c37b9ae3c507bd3ae23783122e06586560040c",
+     "chunks": [
+      {
+       "bytes": 4233522,
+       "sha256": "3873f8ae7528389adacab72259c37b9ae3c507bd3ae23783122e06586560040c"
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-25"
+  },
+  {
+   "id": "topo-pdf-home",
+   "title": "USGS topo PDFs: home area (9 originals)",
+   "description": "Sorrento and the 8 quads around it, original USGS GeoPDFs, print-ready",
+   "required": true,
+   "bytes": 174234844,
+   "files": [
+    {
+     "name": "FL_Sorrento_20150817_TM_geo.pdf",
+     "bytes": 20416166,
+     "sha256": "24518f567c9ddcaae30b41cbeb5eafa81c808fa82b3846f6c9c44fb68f0a7175",
+     "chunks": [
+      {
+       "bytes": 20416166,
+       "sha256": "24518f567c9ddcaae30b41cbeb5eafa81c808fa82b3846f6c9c44fb68f0a7175"
+      }
+     ]
+    },
+    {
+     "name": "FL_Umatilla_20150817_TM_geo.pdf",
+     "bytes": 20091639,
+     "sha256": "766eebf35949070b3e662c5ca8a9127226c0830ab112a4ba3168323d67c159f0",
+     "chunks": [
+      {
+       "bytes": 20091639,
+       "sha256": "766eebf35949070b3e662c5ca8a9127226c0830ab112a4ba3168323d67c159f0"
+      }
+     ]
+    },
+    {
+     "name": "FL_Paisley_20150817_TM_geo.pdf",
+     "bytes": 20158715,
+     "sha256": "7f67cd5702607f0cd312d040bb2d2da46884a9131eb513ad6b0b8d459ac0591c",
+     "chunks": [
+      {
+       "bytes": 20158715,
+       "sha256": "7f67cd5702607f0cd312d040bb2d2da46884a9131eb513ad6b0b8d459ac0591c"
+      }
+     ]
+    },
+    {
+     "name": "FL_Pine_Lakes_20150817_TM_geo.pdf",
+     "bytes": 21801024,
+     "sha256": "54a6cd1d57e43c37ff9672356a40e5b9b89a48857a3284d17e4f7b216d059076",
+     "chunks": [
+      {
+       "bytes": 21801024,
+       "sha256": "54a6cd1d57e43c37ff9672356a40e5b9b89a48857a3284d17e4f7b216d059076"
+      }
+     ]
+    },
+    {
+     "name": "FL_Eustis_20150817_TM_geo.pdf",
+     "bytes": 18358464,
+     "sha256": "5edd130347de8a6d28f35481d1838f3fc33eeae9eea3f47f4a1859c0fe641e8b",
+     "chunks": [
+      {
+       "bytes": 18358464,
+       "sha256": "5edd130347de8a6d28f35481d1838f3fc33eeae9eea3f47f4a1859c0fe641e8b"
+      }
+     ]
+    },
+    {
+     "name": "FL_Sanford_SW_20150817_TM_geo.pdf",
+     "bytes": 20321424,
+     "sha256": "db19e529277e2b6805f676d66dae11e6017c5f916dec7a8dd12b80a0fc226ec5",
+     "chunks": [
+      {
+       "bytes": 20321424,
+       "sha256": "db19e529277e2b6805f676d66dae11e6017c5f916dec7a8dd12b80a0fc226ec5"
+      }
+     ]
+    },
+    {
+     "name": "FL_Astatula_20150817_TM_geo.pdf",
+     "bytes": 16450991,
+     "sha256": "4d0bf6e8a3579829cde71761d110987369a5ba1c79f6123fd043dc2f0533945a",
+     "chunks": [
+      {
+       "bytes": 16450991,
+       "sha256": "4d0bf6e8a3579829cde71761d110987369a5ba1c79f6123fd043dc2f0533945a"
+      }
+     ]
+    },
+    {
+     "name": "FL_Apopka_20150817_TM_geo.pdf",
+     "bytes": 16489708,
+     "sha256": "77cb284b8eb821b0aa2d31871da7b9bbb8d26b9fd39b97f3c8237fc5d9f3b462",
+     "chunks": [
+      {
+       "bytes": 16489708,
+       "sha256": "77cb284b8eb821b0aa2d31871da7b9bbb8d26b9fd39b97f3c8237fc5d9f3b462"
+      }
+     ]
+    },
+    {
+     "name": "FL_Forest_City_20150817_TM_geo.pdf",
+     "bytes": 20146713,
+     "sha256": "3f7ec72aaea2ee205cca3f23e534240b74ba2e207513c9c8196965e17b985a80",
+     "chunks": [
+      {
+       "bytes": 20146713,
+       "sha256": "3f7ec72aaea2ee205cca3f23e534240b74ba2e207513c9c8196965e17b985a80"
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-25"
+  },
+  {
+   "id": "topo-pdf-forest",
+   "title": "USGS topo PDFs: Ocala NF and the drive north (18 print editions)",
+   "description": "Print editions of the 18 quads covering the Ocala National Forest, made from the USGS GeoPDFs without the aerial photo layer",
+   "required": true,
+   "bytes": 67945945,
+   "files": [
+    {
+     "name": "FL_Alexander_Springs_20150720_print.pdf",
+     "bytes": 3611708,
+     "sha256": "07a276f43010af30fb8189bda3278a1f7ed619272118d1616c381796200690a1",
+     "chunks": [
+      {
+       "bytes": 3611708,
+       "sha256": "07a276f43010af30fb8189bda3278a1f7ed619272118d1616c381796200690a1"
+      }
+     ]
+    },
+    {
+     "name": "FL_Astor_20150720_print.pdf",
+     "bytes": 1788783,
+     "sha256": "35a1309200f1aefb8ecb95a4ac8e6a2a2796515762695eb9dbef8b5890b1c59c",
+     "chunks": [
+      {
+       "bytes": 1788783,
+       "sha256": "35a1309200f1aefb8ecb95a4ac8e6a2a2796515762695eb9dbef8b5890b1c59c"
+      }
+     ]
+    },
+    {
+     "name": "FL_Crescent_City_20150720_print.pdf",
+     "bytes": 4191434,
+     "sha256": "53f95f1444616cc69871eea5dac13363d0896f53a0dcffc039b3ce1d41cae8a9",
+     "chunks": [
+      {
+       "bytes": 4191434,
+       "sha256": "53f95f1444616cc69871eea5dac13363d0896f53a0dcffc039b3ce1d41cae8a9"
+      }
+     ]
+    },
+    {
+     "name": "FL_Emeralda_Island_20150817_print.pdf",
+     "bytes": 3585196,
+     "sha256": "22441662a785a7d5903451ff0cdf4519c9df392fa739a035833e8238a6efadb9",
+     "chunks": [
+      {
+       "bytes": 3585196,
+       "sha256": "22441662a785a7d5903451ff0cdf4519c9df392fa739a035833e8238a6efadb9"
+      }
+     ]
+    },
+    {
+     "name": "FL_Eureka_Dam_20150803_print.pdf",
+     "bytes": 3771110,
+     "sha256": "da8f06bdb9dfd69f9cfc72a37791af2af0ff01916da2fe920c55e064d086ea0f",
+     "chunks": [
+      {
+       "bytes": 3771110,
+       "sha256": "da8f06bdb9dfd69f9cfc72a37791af2af0ff01916da2fe920c55e064d086ea0f"
+      }
+     ]
+    },
+    {
+     "name": "FL_Farles_Lake_20150720_print.pdf",
+     "bytes": 4728085,
+     "sha256": "de585718b08357b819c7dcec73c7f09a43c8461fab9a1711bfed4ad936b1689c",
+     "chunks": [
+      {
+       "bytes": 4728085,
+       "sha256": "de585718b08357b819c7dcec73c7f09a43c8461fab9a1711bfed4ad936b1689c"
+      }
+     ]
+    },
+    {
+     "name": "FL_Fort_McCoy_20150720_print.pdf",
+     "bytes": 2650553,
+     "sha256": "6d99742217d6523d6e9e7d316197c6b07109bb66b007c6bb4e6f70afc69d1ea3",
+     "chunks": [
+      {
+       "bytes": 2650553,
+       "sha256": "6d99742217d6523d6e9e7d316197c6b07109bb66b007c6bb4e6f70afc69d1ea3"
+      }
+     ]
+    },
+    {
+     "name": "FL_Halfmoon_Lake_20150720_print.pdf",
+     "bytes": 4289631,
+     "sha256": "eb2be3dfe08023af27d93cf1f3ad9023ee72bf6e8b3d78abe0571780c4846287",
+     "chunks": [
+      {
+       "bytes": 4289631,
+       "sha256": "eb2be3dfe08023af27d93cf1f3ad9023ee72bf6e8b3d78abe0571780c4846287"
+      }
+     ]
+    },
+    {
+     "name": "FL_Juniper_Springs_20150803_print.pdf",
+     "bytes": 4694067,
+     "sha256": "4974ee453f5afc9bb0c2ab42db12daa47c3db035c113b0a5417abea506abe203",
+     "chunks": [
+      {
+       "bytes": 4694067,
+       "sha256": "4974ee453f5afc9bb0c2ab42db12daa47c3db035c113b0a5417abea506abe203"
+      }
+     ]
+    },
+    {
+     "name": "FL_Lady_Lake_20150817_print.pdf",
+     "bytes": 5875329,
+     "sha256": "8e29a1fafa6fee17620c7fb358b2afde026eba0513eb06afcdc9262fbd080022",
+     "chunks": [
+      {
+       "bytes": 5875329,
+       "sha256": "8e29a1fafa6fee17620c7fb358b2afde026eba0513eb06afcdc9262fbd080022"
+      }
+     ]
+    },
+    {
+     "name": "FL_Lake_Delancy_20150720_print.pdf",
+     "bytes": 4709675,
+     "sha256": "c3d4ea4e139e312abc14b523d8e7f39c9881823efcfa7d2a1c19313840fd639f",
+     "chunks": [
+      {
+       "bytes": 4709675,
+       "sha256": "c3d4ea4e139e312abc14b523d8e7f39c9881823efcfa7d2a1c19313840fd639f"
+      }
+     ]
+    },
+    {
+     "name": "FL_Lake_Kerr_20150720_print.pdf",
+     "bytes": 3885854,
+     "sha256": "00cd383d98ac4517e0b86497d97a951920b1577f7f98472e300318d2bb2884d0",
+     "chunks": [
+      {
+       "bytes": 3885854,
+       "sha256": "00cd383d98ac4517e0b86497d97a951920b1577f7f98472e300318d2bb2884d0"
+      }
+     ]
+    },
+    {
+     "name": "FL_Lake_Mary_20150803_print.pdf",
+     "bytes": 4288639,
+     "sha256": "5c95af7a2ef66515fb9c761bf8432aef432b694cf56af249c95ab0f4890bb3dd",
+     "chunks": [
+      {
+       "bytes": 4288639,
+       "sha256": "5c95af7a2ef66515fb9c761bf8432aef432b694cf56af249c95ab0f4890bb3dd"
+      }
+     ]
+    },
+    {
+     "name": "FL_Lake_Weir_20150803_print.pdf",
+     "bytes": 3746692,
+     "sha256": "92857d57aa912f4ccd6fdfbe5c84059f3e83af33cb96f1ce5c2f9be30e12ec0c",
+     "chunks": [
+      {
+       "bytes": 3746692,
+       "sha256": "92857d57aa912f4ccd6fdfbe5c84059f3e83af33cb96f1ce5c2f9be30e12ec0c"
+      }
+     ]
+    },
+    {
+     "name": "FL_Lynne_20150803_print.pdf",
+     "bytes": 3177094,
+     "sha256": "3d1f1618cef8aa0d7841295bf92e8060dcb6dfb84c3dd4be10b5212648c6a0af",
+     "chunks": [
+      {
+       "bytes": 3177094,
+       "sha256": "3d1f1618cef8aa0d7841295bf92e8060dcb6dfb84c3dd4be10b5212648c6a0af"
+      }
+     ]
+    },
+    {
+     "name": "FL_Salt_Springs_20150720_print.pdf",
+     "bytes": 3778451,
+     "sha256": "f04ce2694585b91bf76c27d5ccf5afd6c2472d21b411a1d03ee63e55f7443458",
+     "chunks": [
+      {
+       "bytes": 3778451,
+       "sha256": "f04ce2694585b91bf76c27d5ccf5afd6c2472d21b411a1d03ee63e55f7443458"
+      }
+     ]
+    },
+    {
+     "name": "FL_Welaka_20150720_print.pdf",
+     "bytes": 3732619,
+     "sha256": "96c0267cb294ce6910bed9c4c7a7ce977bb93ce17b87a90c0e53160413c6da79",
+     "chunks": [
+      {
+       "bytes": 3732619,
+       "sha256": "96c0267cb294ce6910bed9c4c7a7ce977bb93ce17b87a90c0e53160413c6da79"
+      }
+     ]
+    },
+    {
+     "name": "FL_Welaka_SE_20150803_print.pdf",
+     "bytes": 1441025,
+     "sha256": "6f21562d375c5ced4b1f37656ca5a125c7f7a513b61c6c2f4b0927cd7c5b5427",
+     "chunks": [
+      {
+       "bytes": 1441025,
+       "sha256": "6f21562d375c5ced4b1f37656ca5a125c7f7a513b61c6c2f4b0927cd7c5b5427"
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-25"
+  }
+ ]
+}
