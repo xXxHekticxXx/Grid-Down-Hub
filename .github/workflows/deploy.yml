@@ -1,4 +1,3 @@
-yaml
 name: Deploy Grid-Down Hub
 on:
   push:
