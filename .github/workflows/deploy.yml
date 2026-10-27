@@ -20,13 +20,14 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Bundle the Army survival manual
+      - name: Bundle the Army survival manual (ATP 3-50.21, approved for public release)
         run: |
           mkdir -p public/library
           for u in "https://irp.fas.org/doddir/army/atp3-50-21.pdf" "https://armypubs.army.mil/epubs/DR_pubs/DR_a/pdf/web/ARN12086_ATP%203-50x21%20FINAL%20WEB%202.pdf"; do
-            if curl -fsSL --max-time 120 -o public/library/atp-3-50-21.pdf "$u" && head -c 4 public/library/atp-3-50-21.pdf | grep -q '%PDF'; then break; fi
+            if curl -fsSL --max-time 120 -o public/library/atp-3-50-21.pdf "$u" && head -c 4 public/library/atp-3-50-21.pdf | grep -q '%PDF'; then echo "downloaded from $u"; break; fi
             rm -f public/library/atp-3-50-21.pdf
           done
+          ls -la public/library || true
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
