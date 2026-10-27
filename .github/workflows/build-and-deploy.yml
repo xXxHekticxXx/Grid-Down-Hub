@@ -20,10 +20,10 @@ concurrency:
 
 jobs:
   web:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -32,30 +32,33 @@ jobs:
         run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: web
           path: dist
           retention-days: 7
 
   android:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
-      - uses: android-actions/setup-android@v3
       - run: npm ci
       - name: Build the web app for the phone
         run: npm run build
         env:
           VITE_BASE: /
+      - name: Android SDK (preinstalled on the runner)
+        run: |
+          echo "ANDROID_HOME=${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
+          yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
       - run: npx cap sync android
       - name: Signing key
         # A GitHub secret GDH_KEYSTORE_B64 (with GDH_KEYSTORE_PASSWORD) overrides the key kept in the repository.
@@ -83,7 +86,7 @@ jobs:
           ./gradlew --no-daemon assembleRelease
           cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/GridDownHub.apk"
           "$ANDROID_HOME"/build-tools/*/apksigner verify --print-certs "$GITHUB_WORKSPACE/GridDownHub.apk" | head -5
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: apk
           path: GridDownHub.apk
@@ -91,21 +94,21 @@ jobs:
 
   pages:
     needs: [web, android]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: web
           path: site
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: apk
           path: site
       - name: Add the data packs
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: data-packs
           path: packs
@@ -122,9 +125,9 @@ jobs:
 
   release:
     needs: [android]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: apk
       - uses: softprops/action-gh-release@v2
