@@ -44,11 +44,11 @@ export default function SearchPage({ q }: { q: string }) {
       <form className="searchbox" role="search" onSubmit={(e) => { e.preventDefault(); go(`/search?q=${encodeURIComponent(text.trim())}`); }}>
         <Icon name="search" />
         <input type="search" aria-label="Search everything" value={text} onChange={(e) => setText(e.target.value)} autoFocus />
-        <button className="btn btn-primary" type="submit" style={{ minHeight: 40 }}>Search</button>
+        <button className="btn btn-primary" type="submit" style={{ minHeight: 48 }}>Search</button>
       </form>
       <div className="btnrow" style={{ margin: '10px 0' }}>
         {types.map((t) => (
-          <button key={t} className={`btn ${filter === t ? 'btn-primary' : ''}`} onClick={() => setFilter(t)} style={{ minHeight: 44, flex: '0 1 auto' }}>
+          <button key={t} className={`btn ${filter === t ? 'btn-primary' : ''}`} onClick={() => setFilter(t)} style={{ minHeight: 48, flex: '0 1 auto' }}>
             {t === 'all' ? 'All' : t === 'library' ? 'Library' : TYPE_LABEL[t]}
           </button>
         ))}

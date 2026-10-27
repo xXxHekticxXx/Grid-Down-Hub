@@ -143,8 +143,10 @@ test('7. USGS topo overlay draws over Sorrento', async ({ page }) => {
   await waitForMap(page);
   await page.getByTestId('layers-btn').click();
   const toggle = page.getByTestId('topo-toggle');
-  if (!(await toggle.isChecked())) await toggle.check();
+  if ((await toggle.getAttribute('aria-pressed')) !== 'true') await toggle.click();
   await page.keyboard.press('Escape');
+  const close = page.getByRole('button', { name: /^Close$/ });
+  if (await close.isVisible().catch(() => false)) await close.click();
   await waitForMap(page);
   const topoVisible = await page.evaluate(() => {
     const m = (window as unknown as { __map: { getLayer(id: string): unknown; getLayoutProperty(id: string, p: string): string; getStyle(): { layers: { id: string; type: string }[] } } }).__map;
@@ -205,6 +207,7 @@ test('10. every downloaded data file matches its SHA-256', async ({ page }) => {
   });
   expect(result).toBe('offline');
   const checks = page.getByRole('button', { name: /Check files/ });
+  await expect(checks.first()).toBeVisible({ timeout: 30_000 });
   const n = await checks.count();
   expect(n).toBeGreaterThanOrEqual(7);
   const lines: string[] = [];

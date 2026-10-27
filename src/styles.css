@@ -181,7 +181,7 @@ textarea { min-height: 140px; resize: vertical; line-height: 1.4; }
 .toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: calc(var(--tap) + 6px); padding: 6px 2px; border-bottom: 1px solid var(--soft); cursor: pointer; }
 .toggle-label { display: block; font-weight: 700; }
 .toggle-sub { display: block; font-size: calc(var(--fs) * .78); color: var(--muted); }
-input[type='checkbox'] { width: 28px; height: 28px; accent-color: var(--green); flex: 0 0 auto; }
+input[type='checkbox'] { width: 48px; height: 48px; margin: 0; accent-color: var(--green); flex: 0 0 auto; }
 .check-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; min-height: calc(var(--tap) + 4px); border-bottom: 1px solid var(--soft); }
 .check-row.done .check-text { text-decoration: line-through; color: var(--muted); }
 .check-text { flex: 1; }
@@ -228,10 +228,10 @@ input[type='checkbox'] { width: 28px; height: 28px; accent-color: var(--green); 
 .maplibregl-popup-tip { display: none; }
 .layer-group { margin: 6px 0; }
 .layer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 10px; }
-.layer-grid label { display: flex; align-items: center; gap: 8px; min-height: 46px; font-size: calc(var(--fs) * .86); }
+.layer-grid label { display: flex; align-items: center; gap: 8px; min-height: 48px; font-size: calc(var(--fs) * .86); }
 .swatch { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 800; flex: 0 0 auto; }
 .seg { display: inline-flex; border: 2px solid var(--line); border-radius: 10px; overflow: hidden; }
-.seg button { min-height: 44px; padding: 0 12px; border: 0; background: var(--card); color: var(--ink); font-weight: 700; cursor: pointer; }
+.seg button { min-height: 48px; padding: 0 12px; border: 0; background: var(--card); color: var(--ink); font-weight: 700; cursor: pointer; }
 .seg button[aria-pressed='true'] { background: var(--ink); color: var(--bg); }
 
 /* book reader */

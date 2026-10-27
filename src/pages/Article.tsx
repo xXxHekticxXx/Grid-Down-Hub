@@ -50,7 +50,7 @@ export default function ArticlePage({ id }: { id: string }) {
   const sections = ov && !showOriginal ? sectionsFrom(ov.body ?? '') : a.sections;
   return (
     <Screen title={a.title} crumb={cat?.title} tone={a.emergency ? 'red' : undefined}
-      actions={<button className="btn" style={{ minHeight: 44, padding: '0 10px' }} onClick={() => go(ov ? `/edit/${ov.id}` : `/edit/new?overrides=${a.id}`)}>Edit</button>}>
+      actions={<button className="btn" style={{ minHeight: 48, minWidth: 48, padding: '0 12px' }} onClick={() => go(ov ? `/edit/${ov.id}` : `/edit/new?overrides=${a.id}`)}>Edit</button>}>
       {a.plant && (
         <div className="article-meta">
           <i>{a.plant.scientific}</i>{' '}
@@ -68,8 +68,8 @@ export default function ArticlePage({ id }: { id: string }) {
       {ov && (
         <div className="card card-ok" style={{ marginBottom: 12 }}>
           <b>{showOriginal ? 'Showing the original page.' : 'This page has your edits.'}</b>{' '}
-          <button className="btn" style={{ minHeight: 40 }} onClick={() => setShowOriginal(!showOriginal)}>{showOriginal ? 'Show my version' : 'Show original'}</button>{' '}
-          <button className="btn" style={{ minHeight: 40 }} onClick={async () => { if (confirm('Delete your edits and go back to the original page?')) await deleteItem(ov.id); }}>Restore original</button>
+          <button className="btn" style={{ minHeight: 48 }} onClick={() => setShowOriginal(!showOriginal)}>{showOriginal ? 'Show my version' : 'Show original'}</button>{' '}
+          <button className="btn" style={{ minHeight: 48 }} onClick={async () => { if (confirm('Delete your edits and go back to the original page?')) await deleteItem(ov.id); }}>Restore original</button>
         </div>
       )}
       <ArticleBody sections={sections} />

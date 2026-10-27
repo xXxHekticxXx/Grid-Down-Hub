@@ -26,7 +26,7 @@ export default function Inventory() {
   return (
     <Screen title="Inventory" actions={<Btn kind="go" icon="plus" onClick={() => setEdit(blank())}>Add</Btn>}>
       <div className="btnrow" style={{ marginBottom: 10 }}>
-        {['All', 'Expiring', ...CATS].map((c) => <button key={c} className={`btn ${filter === c ? 'btn-primary' : ''}`} style={{ flex: '0 1 auto', minHeight: 44 }} onClick={() => setFilter(c)}>{c}</button>)}
+        {['All', 'Expiring', ...CATS].map((c) => <button key={c} className={`btn ${filter === c ? 'btn-primary' : ''}`} style={{ flex: '0 1 auto', minHeight: 48 }} onClick={() => setFilter(c)}>{c}</button>)}
       </div>
       {shown.length === 0 && <Empty>{list.length === 0 ? 'Nothing tracked yet. Add what you have, how much, where it is and when it expires.' : 'Nothing in this filter.'}</Empty>}
       <div className="list">

@@ -81,6 +81,7 @@ function PlanSection({ id }: { id: string }) {
   const [val, setVal] = useState<Record<string, string> | Record<string, string>[] | undefined>();
   const [edit, setEdit] = useState<{ i: number; v: Record<string, string> } | null>(null);
   useEffect(() => {
+    setVal(undefined); // a new section: never show the previous section's values
     const load = () => get<typeof val>('plan', id).then((v) => setVal(v ?? (def?.kind === 'list' ? [] : {})));
     load();
     return subscribe('plan', load);
@@ -88,7 +89,7 @@ function PlanSection({ id }: { id: string }) {
   if (!def) return <Screen title="Not found">{null}</Screen>;
   if (val === undefined) return <Screen title={def.title}>{null}</Screen>;
   if (def.kind === 'form') {
-    const v = val as Record<string, string>;
+    const v = (Array.isArray(val) ? {} : val) as Record<string, string>;
     return (
       <Screen title={def.title} crumb="My Plan">
         <form className="stack" onSubmit={async (e) => { e.preventDefault(); await put('plan', id, v); toast('Saved on this device'); }}>
@@ -104,7 +105,7 @@ function PlanSection({ id }: { id: string }) {
       </Screen>
     );
   }
-  const list = val as Record<string, string>[];
+  const list = Array.isArray(val) ? val : [];
   const saveList = async (n: Record<string, string>[]) => {
     await put('plan', id, n);
   };

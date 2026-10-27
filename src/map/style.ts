@@ -90,7 +90,11 @@ function vectorLayers(src: string, p: Palette, opt: { minzoom?: number; labels: 
         filter: ['in', ['get', 'class'], ['literal', ['city', 'town', 'village', 'hamlet', 'suburb', 'neighbourhood', 'locality']]],
         layout: {
           'text-field': nameExpr, 'text-font': ['match', ['get', 'class'], ['city', 'town'], ['literal', FONT_BOLD], ['literal', FONT]] as unknown as string[],
-          'text-size': ['match', ['get', 'class'], 'city', ['interpolate', ['linear'], ['zoom'], 5, 13, 12, 22], 'town', ['interpolate', ['linear'], ['zoom'], 7, 12, 14, 19], ['interpolate', ['linear'], ['zoom'], 10, 11, 15, 15]],
+          'text-size': ['interpolate', ['linear'], ['zoom'],
+            5, ['match', ['get', 'class'], 'city', 13, 'town', 11, 10],
+            10, ['match', ['get', 'class'], 'city', 19, 'town', 15, 11],
+            14, ['match', ['get', 'class'], 'city', 22, 'town', 19, 14],
+            15, ['match', ['get', 'class'], 'city', 22, 'town', 19, 15]],
           'text-max-width': 8, 'symbol-sort-key': ['get', 'rank'],
         },
         paint: { 'text-color': p.text, 'text-halo-color': p.halo, 'text-halo-width': 2 },

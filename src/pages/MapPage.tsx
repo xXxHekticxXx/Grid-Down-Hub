@@ -127,6 +127,7 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
       } as maplibregl.MapOptions);
       map.addControl(new maplibregl.ScaleControl({ unit: s.metric ? 'metric' : 'imperial', maxWidth: 140 }), 'bottom-left');
       mapRef.current = map;
+      setZoom(map.getZoom());
       (window as unknown as { __map?: MLMap }).__map = map; // for the automated map tests
       map.on('move', () => {
         const cc = map.getCenter();
@@ -482,7 +483,7 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
             <b>To {target.name}</b>
             <div>{fmtDistance(distanceM(here, [target.lon, target.lat]), s.metric)} · {Math.round(bearingDeg(here, [target.lon, target.lat]))}° true ({cardinal(bearingDeg(here, [target.lon, target.lat]))}) · {Math.round(magneticFromTrue(bearingDeg(here, [target.lon, target.lat]), here))}° magnetic</div>
             <div className="small muted">{fix ? 'from your GPS position' : 'from the map center'} · straight line</div>
-            <button className="btn" style={{ minHeight: 40, marginTop: 6 }} onClick={() => setTarget(null)}>Stop</button>
+            <button className="btn" style={{ minHeight: 48, marginTop: 6 }} onClick={() => setTarget(null)}>Stop</button>
           </div>
         )}
         {panel && (
