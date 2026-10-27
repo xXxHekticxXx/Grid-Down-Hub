@@ -1,0 +1,113 @@
+[
+  {
+    "id": "cpr",
+    "title": "CPR: adult",
+    "short": "CPR",
+    "metronome": true,
+    "source": "American Heart Association, Hands-Only CPR",
+    "url": "https://cpr.heart.org/en/resources/what-is-cpr",
+    "steps": [
+      { "h": "Call 911", "t": "Call 911, or send someone to call.", "m": false },
+      { "h": "Push hard and fast in the center of the chest.", "t": "Place the heel of one hand on the center of the chest (lower half of the breastbone) and the other hand on top. Push at least 2 inches (5 cm) deep, but not more than 2.4 inches (6 cm), at 100 to 120 compressions per minute. Let the chest come all the way back up between pushes.", "m": true },
+      { "h": "Keep going. Keep stops short.", "t": "Don't lean on the chest. Keep interruptions as short as possible. Do CPR on a firm, flat surface with the person on their back when you can.", "m": true },
+      { "h": "Switch every 2 minutes if you can.", "t": "If another person is there, switch every 2 minutes, because compressions get weaker after about 2 minutes.", "m": true },
+      { "h": "AED and breaths", "t": "If an AED is available, turn it on and follow its voice prompts. Restart compressions right after any shock. Trained rescuers may give breaths at 30 compressions : 2 breaths.", "m": true }
+    ]
+  },
+  {
+    "id": "choking",
+    "title": "Choking: adult or child",
+    "short": "Choking",
+    "source": "AHA 2025 Guidelines news release (guidance changed October 2025)",
+    "url": "https://newsroom.heart.org/news/updated-cpr-guidelines-tackle-choking-response-opioid-related-emergencies-and-a-revised-chain-of-survival",
+    "steps": [
+      { "h": "Can't breathe, cough or speak?", "t": "This is for a conscious adult or child who can't breathe, cough or speak. Give 5 back blows." },
+      { "h": "Give 5 abdominal thrusts.", "t": "Then go back to the back blows." },
+      { "h": "Keep alternating 5 and 5.", "t": "Keep alternating until the object comes out or the person becomes unresponsive." },
+      { "h": "If they become unresponsive", "t": "Call 911 and start CPR." }
+    ]
+  },
+  {
+    "id": "choking-infant",
+    "title": "Choking: infant (under 1 year)",
+    "short": "Choking, infant",
+    "source": "AHA 2025 Guidelines news release (guidance changed October 2025)",
+    "url": "https://newsroom.heart.org/news/updated-cpr-guidelines-tackle-choking-response-opioid-related-emergencies-and-a-revised-chain-of-survival",
+    "steps": [
+      { "h": "Give 5 back blows.", "t": "For an infant under 1 year who is choking." },
+      { "h": "Give 5 chest thrusts.", "t": "Use the heel of one hand." },
+      { "h": "Keep alternating.", "t": "Keep alternating until the object comes out or the infant becomes unresponsive." },
+      { "h": "Do NOT give abdominal thrusts to infants.", "t": "There is a risk of injury." }
+    ]
+  },
+  {
+    "id": "bleeding",
+    "title": "Severe bleeding",
+    "short": "Bleeding",
+    "source": "Stop the Bleed booklet; American Red Cross",
+    "url": "https://www.redcross.org/take-a-class/learn-fa-bleeding-life-threatening-external.html",
+    "steps": [
+      { "h": "A: Alert. Call 911.", "t": "Make sure you are safe first." },
+      { "h": "B: Find the bleeding injury.", "t": "C: Compress. Apply pressure to stop the bleeding, using one of the three methods on the next screens." },
+      { "h": "Direct pressure (no kit needed)", "t": "Cover the wound with any clean cloth (a shirt works). If the wound is large and deep, stuff the cloth down into it. Push directly on it with both hands, as hard as you can. Keep pressing until the bleeding stops or help takes over. If a bandaged wound starts bleeding again, don't pile on more dressings. Take off the bandage, leave the one dressing on the wound, and press directly on it again (Red Cross)." },
+      { "h": "Tourniquet (life-threatening bleeding from an arm or leg)", "t": "Wrap the tourniquet around the limb 2 to 3 inches above the wound, not on a joint. Go above the joint if needed. Pull the free end as tight as possible and secure it. Twist the windlass until the bleeding stops. Lock the windlass in place. Write down the time you applied it. It will hurt; that is expected." },
+      { "h": "Wound packing (neck, shoulder or groin, or a limb with no tourniquet)", "t": "Open clothing over the wound and wipe away pooled blood. Pack (stuff) the wound with bleeding-control gauze (best), plain gauze or a clean cloth. Press with both hands, as hard as you can, and keep pressing." },
+      { "h": "Object stuck in the wound?", "t": "Do not pull it out. Pack dressings around it and press around it, not on it." },
+      { "h": "After the bleeding is controlled", "t": "Keep the person warm, watch their breathing and alertness, and stay with them. Shock: keep them from getting cold or overheated, reassure them, and stay with them until help arrives." }
+    ]
+  },
+  {
+    "id": "burns",
+    "title": "Burns",
+    "short": "Burns",
+    "source": "American Red Cross; NHS",
+    "url": "https://www.redcross.org/take-a-class/resources/learn-first-aid/burns",
+    "steps": [
+      { "h": "Remove clothing and jewelry near the burn.", "t": "Unless it is stuck to the skin." },
+      { "h": "Cool the burn.", "t": "Cool the burn under clean, cool running water (water you could drink). Red Cross says 5 to 20 minutes; UK guidance says 20 minutes. If there's no running water, use a cool, wet compress." },
+      { "h": "Cover it loosely.", "t": "Use plastic wrap or a clean, non-stick cover." },
+      { "h": "Do not", "t": "Do not use ice, butter, oils, creams or toothpaste, or pop blisters." },
+      { "h": "Get emergency help for", "t": "Large or deep burns; burns on the face, genitals or buttocks; chemical or electrical burns; any burn on a baby or child. On large burns, watch for chilling (hypothermia), especially in children." }
+    ]
+  },
+  {
+    "id": "heat",
+    "title": "Heat stroke",
+    "short": "Heat stroke",
+    "source": "CDC Heat-Related Illnesses; CDC/NIOSH",
+    "url": "https://www.cdc.gov/extreme-heat/media/pdf/Heat_Related_Illness.pdf",
+    "steps": [
+      { "h": "Heat stroke is a medical emergency.", "t": "Signs: body temperature 103°F or higher; hot, red, dry or damp skin; fast, strong pulse; headache, dizziness, nausea; confusion; passing out." },
+      { "h": "Call 911.", "t": "Move them somewhere cooler." },
+      { "h": "Cool them fast.", "t": "Use cold water, wet cloths, or ice on the neck, armpits and groin while fanning. Do not give them anything to drink." },
+      { "h": "Heat exhaustion (less severe)", "t": "Signs: heavy sweating; cold, pale, clammy skin; fast, weak pulse; nausea or vomiting; muscle cramps; tiredness; dizziness; headache; fainting. Move somewhere cool, loosen clothes, apply cool wet cloths or take a cool bath, and sip water. Get medical help right away if they are vomiting, symptoms get worse, or symptoms last over 1 hour." }
+    ]
+  },
+  {
+    "id": "snakebite",
+    "title": "Snakebite (Florida)",
+    "short": "Snakebite",
+    "source": "Florida Poison Control Centers; UF/IFAS",
+    "url": "https://floridapoisoncontrol.org/poisoning-in-florida/snakes/",
+    "steps": [
+      { "h": "Move away from the snake.", "t": "Don't try to catch or kill it. If it's safe, take a photo." },
+      { "h": "Call 911 / get to a hospital right away.", "t": "Don't wait for symptoms. Coral snake bites may barely hurt at first." },
+      { "h": "Remove rings, watches and tight clothing near the bite.", "t": "Swelling comes fast." },
+      { "h": "Keep the limb below heart level.", "t": "Keep the person calm, and gently clean the bite." },
+      { "h": "Call Poison Control: 1-800-222-1222", "t": "They can identify the snake from a photo and coordinate antivenom.", "call": "tel:18002221222" },
+      { "h": "Do NOT", "t": "Do not use a tourniquet, ice, heat or electric shock; cut the bite; suck out venom; or give alcohol or stimulants." }
+    ]
+  },
+  {
+    "id": "co",
+    "title": "Carbon monoxide poisoning",
+    "short": "CO poisoning",
+    "source": "CDC Power Outage Safety",
+    "url": "https://www.cdc.gov/natural-disasters/response/what-to-do-protect-yourself-during-a-power-outage.html",
+    "steps": [
+      { "h": "Get everyone into fresh air now.", "t": "Include pets. People who are asleep or have been drinking can die before feeling anything." },
+      { "h": "Call 911 or Poison Control: 1-800-222-1222", "t": "Symptoms: headache, dizziness, weakness, nausea, vomiting, chest pain, confusion.", "call": "tel:18002221222" },
+      { "h": "Camper warning", "t": "CDC names campers specifically. Never run a generator, grill, lantern or camp stove inside a camper, and keep generators more than 20 feet from any window, door or vent." }
+    ]
+  }
+]
