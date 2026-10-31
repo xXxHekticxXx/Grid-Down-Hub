@@ -357,6 +357,42 @@
    "date": "2026-10-25"
   },
   {
+   "id": "addresses",
+   "title": "Florida addresses",
+   "description": "About 2 million Florida street addresses and town names from OpenStreetMap, for Pin by address on the map",
+   "required": true,
+   "bytes": 62318289,
+   "files": [
+    {
+     "name": "addr-index.json",
+     "bytes": 6755874,
+     "sha256": "9459a0ec20fe8841304307ee1b797a62795faeceef087bd8b91cd03c3162d5b3",
+     "chunks": [
+      {
+       "bytes": 6755874,
+       "sha256": "9459a0ec20fe8841304307ee1b797a62795faeceef087bd8b91cd03c3162d5b3"
+      }
+     ]
+    },
+    {
+     "name": "addr-data.tsv",
+     "bytes": 55562415,
+     "sha256": "45664834888ead72b3f81ff18b40a1236a359ec0496b2faf0fe17bfefb3b67ec",
+     "chunks": [
+      {
+       "bytes": 33554432,
+       "sha256": "36507f31d7dc093efe1541ec049319134a613e8c88601cfdd7e046d671da51a5"
+      },
+      {
+       "bytes": 22007983,
+       "sha256": "c1ffce3385ce0b7ddb9b5398ffb1e7209b8c59e1f4f21b6385d9b9854a3c8d05"
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-25"
+  },
+  {
    "id": "library",
    "title": "Library: survival and first aid manuals",
    "description": "ATP 3-50.21 Survival, ATP 4-02.11 Casualty Response and First Aid, FEMA P-2064 Are You Ready? (original PDFs)",
