@@ -9,7 +9,11 @@ const config: CapacitorConfig = {
     allowMixedContent: false,
     backgroundColor: '#161A17',
   },
-  plugins: {},
+  plugins: {
+    // Android 15+ draws apps edge to edge. Keep the WebView's safe-area values correct so the top bar
+    // (Back, Add, Edit) sits below the phone's status bar instead of under it.
+    SystemBars: { insetsHandling: 'native', initialViewportFitValueHint: 'cover' },
+  },
 };
 
 export default config;
