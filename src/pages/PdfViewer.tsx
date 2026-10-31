@@ -91,8 +91,8 @@ export default function PdfViewer({ docId, page }: { docId: string; page: number
   return (
     <Screen title={info?.title ?? 'PDF'} crumb="Library"
       actions={<>
-        <button className="icon-btn" aria-label="Smaller" onClick={() => setScale((s) => Math.max(0.5, s - 0.25))}>−</button>
-        <button className="icon-btn" aria-label="Bigger" onClick={() => setScale((s) => Math.min(4, s + 0.25))}>+</button>
+        <button className="btn" aria-label="Smaller" onClick={() => setScale((s) => Math.max(0.5, s - 0.25))}>−</button>
+        <button className="btn" aria-label="Bigger" onClick={() => setScale((s) => Math.min(4, s + 0.25))}>+</button>
       </>}>
       {info?.note && <div className="book-notice">{info.note}</div>}
       {err && <p className="card card-warn">{err}</p>}

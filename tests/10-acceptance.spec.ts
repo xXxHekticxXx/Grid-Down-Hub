@@ -222,3 +222,31 @@ test('10. every downloaded data file matches its SHA-256', async ({ page }) => {
   fs.writeFileSync(`${PROOF}/10-sha-check.txt`, lines.join('\n') + '\n');
   await page.screenshot({ path: `${PROOF}/10-setup-sha.png`, fullPage: true });
 });
+
+test('11. Back and Add sit at the bottom within thumb reach; pins can be added by address offline', async ({ page }) => {
+  await page.goto('/#/plan/contacts');
+  const vh = page.viewportSize()!.height;
+  for (const name of ['Back', 'Add']) {
+    const b = await page.getByRole('button', { name, exact: true }).boundingBox();
+    expect(b, `${name} button`).not.toBeNull();
+    expect(b!.y, `${name} is in the bottom fifth of the screen`).toBeGreaterThan(vh * 0.8);
+    expect(b!.height).toBeGreaterThanOrEqual(48);
+  }
+  await page.screenshot({ path: `${PROOF}/11-bottom-buttons.png` });
+
+  await page.goto('/#/map?lat=28.8075&lon=-81.5603&z=14');
+  await waitForMap(page);
+  const back = await page.getByTestId('back').boundingBox();
+  expect(back!.y).toBeGreaterThan(vh * 0.8);
+  await page.getByTestId('pin-address-btn').click();
+  await page.getByTestId('address-input').fill('Doane Ave Sorrento');
+  await page.getByRole('button', { name: 'Find' }).click();
+  const results = page.getByTestId('address-results');
+  await expect(results).toContainText('Doane Avenue', { timeout: 30_000 });
+  await expect(results).toContainText('Sorrento');
+  await page.getByTestId('address-pin-name').fill('Test address pin');
+  await page.getByRole('button', { name: 'Save pin' }).click();
+  await expect(page.getByTestId('pin-editor')).toBeVisible();
+  await expect(page.getByTestId('pin-name')).toHaveValue('Test address pin');
+  await page.screenshot({ path: `${PROOF}/11-pin-by-address.png` });
+});

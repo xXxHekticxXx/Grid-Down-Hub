@@ -19,11 +19,12 @@ import { KIND_LABEL } from '../lib/search';
 import type { Pin } from '../types';
 import { saveItem } from '../lib/content';
 import { cornersFromTwoPoints } from '../lib/geoformats';
+import { searchAddress, type AddressHit } from '../lib/address';
 
 export type UserMap = { id: string; name: string; kind: 'pmtiles' | 'geojson' | 'image'; visible: boolean; color: string; file?: string; data?: GeoJSON.FeatureCollection; corners?: [number, number][]; opacity?: number; created: number };
 export type Track = { id: string; name: string; points: [number, number, number][]; created: number; color?: string };
 
-type Panel = null | 'layers' | 'pin' | 'pins' | 'measure' | 'tracks' | 'poi';
+type Panel = null | 'layers' | 'pin' | 'pins' | 'measure' | 'tracks' | 'poi' | 'address';
 const FMT = ['dd', 'ddm', 'usng'] as const;
 
 function circle(center: [number, number], radiusM: number, n = 96): GeoJSON.Feature<GeoJSON.Polygon> {
@@ -412,8 +413,8 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
       setCalib([]);
     }
   }
-  async function newPinAt(ll: [number, number]) {
-    const p: Pin = { id: uid(), name: `Pin ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`, lon: ll[0], lat: ll[1], kind: 'pin', created: Date.now(), updated: Date.now() };
+  async function newPinAt(ll: [number, number], name?: string, note?: string) {
+    const p: Pin = { id: uid(), name: name || `Pin ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`, lon: ll[0], lat: ll[1], kind: 'pin', note, created: Date.now(), updated: Date.now() };
     await put('pins', p.id, p);
     if (!currentLayers.current.includes('mypins')) set({ layers: [...currentLayers.current, 'mypins'] });
     setPinEdit(p);
@@ -448,7 +449,6 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
       <div className="map-wrap">
         <div ref={el} className="map-canvas" data-testid="map" aria-label="Map" />
         <div className="map-top">
-          <button className="map-fab" onClick={back} aria-label="Back"><Icon name="back" /></button>
           <button className="map-coords" onClick={() => set({ coordFormat: FMT[(FMT.indexOf(fmt) + 1) % 3] })} aria-label="Coordinates, tap to change format" data-testid="coords">
             <b>{fix ? 'You' : 'Map center'}: {coordText}</b>
             <br />
@@ -517,6 +517,12 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
                 <Btn icon="plus" onClick={() => newPinAt(fix ? [fix.lon, fix.lat] : center)}>Pin {fix ? 'my location' : 'the map center'}</Btn>
               </div>
             )}
+            {panel === 'address' && (
+              <AddressPanel here={here} metric={s.metric}
+                onShow={(h) => { mapRef.current?.flyTo({ center: [h.lon, h.lat], zoom: 17 }); }}
+                onSave={async (h, name) => { mapRef.current?.flyTo({ center: [h.lon, h.lat], zoom: 17 }); await newPinAt([h.lon, h.lat], name || h.label, h.label); toast('Pin saved'); }}
+                onClose={() => setPanel(null)} />
+            )}
             {panel === 'pin' && pinEdit && (
               <PinEditor pin={pinEdit} here={here} metric={s.metric} onGo={() => { setTarget(pinEdit); setPanel(null); }} onClose={() => setPanel(null)} />
             )}
@@ -542,6 +548,10 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
           </div>
         )}
       </div>
+      <nav className="dock map-dock" aria-label="Map buttons">
+        <button className="btn dock-back" onClick={back} data-testid="back"><Icon name="back" size={24} /><span>Back</span></button>
+        <button className="btn btn-go" aria-pressed={panel === 'address'} onClick={() => setPanel(panel === 'address' ? null : 'address')} data-testid="pin-address-btn"><Icon name="pin" size={22} /><span>Pin by address</span></button>
+      </nav>
     </div>
   );
 }
@@ -626,4 +636,54 @@ function LayersPanel(props: {
 
 export function flyTo(map: MLMap | null, ll: LngLatLike, z = 15) {
   map?.flyTo({ center: ll, zoom: z });
+}
+
+function AddressPanel({ here, metric, onShow, onSave, onClose }: { here: [number, number]; metric: boolean; onShow: (h: AddressHit) => void; onSave: (h: AddressHit, name: string) => Promise<void>; onClose: () => void }) {
+  const [q, setQ] = useState('');
+  const [hits, setHits] = useState<AddressHit[] | null>([]);
+  const [sel, setSel] = useState<AddressHit | null>(null);
+  const [name, setName] = useState('');
+  const [busy, setBusy] = useState(false);
+  const run = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    setBusy(true);
+    const r = await searchAddress(q, here);
+    setHits(r);
+    setSel(r && r[0] ? r[0] : null);
+    if (r && r[0]) onShow(r[0]);
+    setBusy(false);
+  };
+  return (
+    <div className="stack" data-testid="address-panel">
+      <b style={{ fontSize: 'calc(var(--fs)*1.2)' }}>Pin by address</b>
+      <form className="btnrow" onSubmit={run}>
+        <input type="search" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Address, street, town or coordinates" style={{ flex: '1 1 200px' }} data-testid="address-input" enterKeyHint="search" />
+        <Btn type="submit" kind="primary" icon="search" disabled={busy || !q.trim()}>{busy ? 'Looking…' : 'Find'}</Btn>
+      </form>
+      <p className="small muted">Works offline: about 2 million Florida addresses from OpenStreetMap. Also takes a street, a town, or coordinates. Rural house numbers are sometimes missing; you'll get the closest number or the street.</p>
+      {hits === null && (
+        <div className="card card-warn">The address list isn't on this device yet. <a href={href('/setup')}>Download it in Setup</a> (about 62 MB).</div>
+      )}
+      {hits && hits.length === 0 && q && !busy && <p className="small">Nothing found. Try the street without the number, or the town.</p>}
+      {hits && hits.length > 0 && (
+        <div className="list" data-testid="address-results">
+          {hits.map((h) => (
+            <button key={h.label + h.lat} className={`row${sel === h ? ' row-mine' : ''}`} aria-pressed={sel === h} onClick={() => { setSel(h); onShow(h); }}>
+              <span className="row-main"><span className="row-title">{h.label}</span><span className="row-sub">{h.sub} · {fmtDistance(distanceM(here, [h.lon, h.lat]), metric)}, {Math.round(bearingDeg(here, [h.lon, h.lat]))}° {cardinal(bearingDeg(here, [h.lon, h.lat]))} from you</span></span>
+            </button>
+          ))}
+        </div>
+      )}
+      {sel && (
+        <form className="stack" onSubmit={async (e) => { e.preventDefault(); await onSave(sel, name.trim()); }}>
+          <Field label="Pin name (optional)"><input value={name} onChange={(e) => setName(e.target.value)} data-testid="address-pin-name" /></Field>
+          <div className="btnrow">
+            <Btn type="submit" kind="go" icon="check">Save pin</Btn>
+            <Btn onClick={onClose}>Close</Btn>
+          </div>
+        </form>
+      )}
+      {!sel && <div className="btnrow"><Btn onClick={onClose}>Close</Btn></div>}
+    </div>
+  );
 }

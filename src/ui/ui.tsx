@@ -2,25 +2,36 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { Icon } from './icons';
 import { back, href } from '../lib/router';
 
-export function Screen({ title, children, actions, tone, crumb, noBack }: { title: string; children: ReactNode; actions?: ReactNode; tone?: 'red' | 'green'; crumb?: string; noBack?: boolean }) {
+/**
+ * A page: title bar at the top, and Back plus the page's main buttons (Add, Save, Edit…) in a dock at the
+ * bottom of the screen, where a thumb can reach them. `badge` is information shown next to the title.
+ */
+export function Screen({ title, children, actions, badge, tone, crumb, noBack }: { title: string; children: ReactNode; actions?: ReactNode; badge?: ReactNode; tone?: 'red' | 'green'; crumb?: string; noBack?: boolean }) {
   useEffect(() => {
     document.title = `${title} · Grid-Down Hub`;
   }, [title]);
+  const dock = !noBack || !!actions;
   return (
-    <div className="screen">
+    <div className={`screen${dock ? ' has-dock' : ''}`}>
       <header className={`bar ${tone ? 'bar-' + tone : ''}`}>
-        {!noBack && (
-          <button className="icon-btn" onClick={back} aria-label="Back">
-            <Icon name="back" size={28} />
-          </button>
-        )}
         <div className="bar-title">
           {crumb && <div className="crumb">{crumb}</div>}
           <h1>{title}</h1>
         </div>
-        <div className="bar-actions">{actions}</div>
+        {badge && <div className="bar-actions">{badge}</div>}
       </header>
       <main className="content">{children}</main>
+      {dock && (
+        <nav className="dock" aria-label="Page buttons">
+          {!noBack && (
+            <button className="btn dock-back" onClick={back} data-testid="back">
+              <Icon name="back" size={24} />
+              <span>Back</span>
+            </button>
+          )}
+          {actions && <div className="dock-actions">{actions}</div>}
+        </nav>
+      )}
     </div>
   );
 }

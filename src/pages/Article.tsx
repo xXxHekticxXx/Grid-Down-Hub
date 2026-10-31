@@ -50,7 +50,7 @@ export default function ArticlePage({ id }: { id: string }) {
   const sections = ov && !showOriginal ? sectionsFrom(ov.body ?? '') : a.sections;
   return (
     <Screen title={a.title} crumb={cat?.title} tone={a.emergency ? 'red' : undefined}
-      actions={<button className="btn" style={{ minHeight: 48, minWidth: 48, padding: '0 12px' }} onClick={() => go(ov ? `/edit/${ov.id}` : `/edit/new?overrides=${a.id}`)}>Edit</button>}>
+      actions={<button className="btn" onClick={() => go(ov ? `/edit/${ov.id}` : `/edit/new?overrides=${a.id}`)}>Edit</button>}>
       {a.plant && (
         <div className="article-meta">
           <i>{a.plant.scientific}</i>{' '}

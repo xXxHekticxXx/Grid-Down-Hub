@@ -41,7 +41,7 @@ function PlanHome() {
     all<Pin>('pins').then(setPins);
   }, []);
   return (
-    <Screen title="My Plan" actions={<span className="badge"><Icon name="lock" size={14} /> This device only</span>}>
+    <Screen title="My Plan" badge={<span className="badge"><Icon name="lock" size={14} /> This device only</span>}>
       <div className="list">
         {PLAN_SECTIONS.map((s) => <Row key={s.id} to={`/plan/${s.id}`} title={s.title} sub={s.sub} />)}
         <Row to="/checklist/documents" title="Documents checklist" sub="IDs, insurance, titles, deeds, copies" />

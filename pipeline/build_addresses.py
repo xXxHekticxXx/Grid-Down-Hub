@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Build the offline address pack from OpenStreetMap address points (addr:housenumber + addr:street).
 
-usage: build_addresses.py <addresses.geojsonseq> <out_dir>
+usage: build_addresses.py <addresses.geojsonseq> <out_dir> [places.geojsonseq]
 (make the input with: osmium tags-filter florida.osm.pbf nwr/addr:housenumber -o a.pbf;
  osmium export a.pbf -f geojsonseq -o addresses.geojsonseq)
 
 Output:
   addr-index.json  {"streets": [[normalized street, display street, city, zip, shard], ...] (row index = street id),
-                    "shards": {shard: [byte offset, byte length]}}
+                    "shards": {shard: [byte offset, byte length]},
+                    "places": [[normalized name, name, kind, lat, lon], ...]}  (towns, villages, neighborhoods)
   addr-data.tsv    street id <TAB> house number <TAB> lat*1e5 <TAB> lon*1e5, grouped by shard
 Shards group streets by the first two characters of the normalized name, so a search reads one small slice
 of addr-data.tsv from device storage instead of the whole file.
@@ -100,7 +101,16 @@ with open(os.path.join(out, 'addr-data.tsv'), 'wb') as fh:
         b = ('\n'.join(rows[k]) + '\n').encode()
         shards[k] = [fh.tell(), len(b)]
         fh.write(b)
+places = []
+if len(sys.argv) > 3:
+    for line in open(sys.argv[3], encoding='utf-8'):
+        f = json.loads(line.strip('\x1e'))
+        p = f['properties']
+        if not p.get('name') or f['geometry']['type'] != 'Point':
+            continue
+        lon, lat = f['geometry']['coordinates']
+        places.append([norm(p['name']), p['name'], p.get('place', ''), round(lat, 5), round(lon, 5)])
 with open(os.path.join(out, 'addr-index.json'), 'w', encoding='utf-8') as fh:
-    json.dump({'streets': table, 'shards': shards}, fh, ensure_ascii=False, separators=(',', ':'))
+    json.dump({'streets': table, 'shards': shards, 'places': places}, fh, ensure_ascii=False, separators=(',', ':'))
 total = sum(len(v) for v in rows.values())
 print(f'{total} addresses on {len(streets)} streets in {len(rows)} shards')
