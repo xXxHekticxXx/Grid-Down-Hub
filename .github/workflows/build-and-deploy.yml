@@ -32,6 +32,8 @@ jobs:
         run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
+          GDH_VERSION_CODE: ${{ github.run_number }}
+          GDH_VERSION_NAME: 1.0.${{ github.run_number }}
       - uses: actions/upload-artifact@v5
         with:
           name: web
@@ -55,6 +57,20 @@ jobs:
         run: npm run build
         env:
           VITE_BASE: /
+          GDH_VERSION_CODE: ${{ github.run_number }}
+          GDH_VERSION_NAME: 1.0.${{ github.run_number }}
+      - name: In-app update bundle (the phone downloads this and switches to it; see src/lib/updater.ts)
+        run: |
+          (cd dist && zip -qr -X "$GITHUB_WORKSPACE/app-bundle.zip" .)
+          LEVEL=$(grep -oP 'NATIVE_LEVEL = \K[0-9]+' src/lib/updater.ts)
+          SUM=$(sha256sum app-bundle.zip | cut -d' ' -f1)
+          cat > app-update.json <<JSON
+          {"version": "1.0.${{ github.run_number }}", "build": ${{ github.run_number }}, "nativeLevel": $LEVEL,
+           "bundle": "app-bundle-${{ github.run_number }}.zip", "checksum": "$SUM",
+           "apk": "https://xxxhekticxxx.github.io/${{ github.event.repository.name }}/GridDownHub.apk"}
+          JSON
+          mv app-bundle.zip app-bundle-${{ github.run_number }}.zip
+          cat app-update.json
       - name: Android SDK (preinstalled on the runner)
         run: |
           echo "ANDROID_HOME=${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
@@ -89,7 +105,10 @@ jobs:
       - uses: actions/upload-artifact@v5
         with:
           name: apk
-          path: GridDownHub.apk
+          path: |
+            GridDownHub.apk
+            app-bundle-*.zip
+            app-update.json
           retention-days: 30
 
   pages:

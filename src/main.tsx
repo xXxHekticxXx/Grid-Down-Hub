@@ -5,9 +5,13 @@ import './styles.css';
 import App from './App';
 import { SettingsProvider } from './lib/settings';
 import { askPersist } from './lib/opfs';
+import { startUpdater } from './lib/updater';
 
 // Ask the browser to keep this app's storage even when the device is low on space.
 void askPersist();
+
+// Phone app: confirm this version started fine and look for updates (see src/lib/updater.ts).
+void startUpdater();
 
 // When a new version of the app finishes downloading in the background, switch to it right away
 // instead of leaving the old version on screen until every tab is closed.

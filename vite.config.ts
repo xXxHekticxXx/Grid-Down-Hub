@@ -9,6 +9,9 @@ export default defineConfig({
   base,
   define: {
     __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+    // Set by the GitHub build (run number); local builds are 0 so they never look newer than a release.
+    __BUILD_NUMBER__: JSON.stringify(Number(process.env.GDH_VERSION_CODE || 0)),
+    __APP_VERSION__: JSON.stringify(process.env.GDH_VERSION_NAME || 'dev'),
   },
   plugins: [
     react(),

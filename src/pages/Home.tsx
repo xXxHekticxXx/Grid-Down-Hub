@@ -3,6 +3,7 @@ import StatusBar, { useOfflineReady } from '../ui/StatusBar';
 import { Icon } from '../ui/icons';
 import { Tile } from '../ui/ui';
 import { go, href } from '../lib/router';
+import { UpdateBanner } from '../ui/UpdateBanner';
 import { useSettings } from '../lib/settings';
 
 export const HOME_TILES = [
@@ -38,6 +39,7 @@ export default function Home() {
         </button>
       </div>
       <main className="content stack">
+        <UpdateBanner />
         <form className="searchbox" onSubmit={submit} role="search">
           <Icon name="search" />
           <input type="search" aria-label="Search everything" value={q} onChange={(e) => setQ(e.target.value)} />

@@ -5,6 +5,7 @@ import { content, type Content } from '../lib/content';
 import { BackupSheet } from './Plan';
 import { get, put } from '../lib/db';
 import { DEFAULT_REMOTE } from '../lib/packs';
+import { APP_VERSION, checkForUpdate, onUpdateState, applyNow, type UpdateState } from '../lib/updater';
 
 declare const __BUILD_DATE__: string;
 
@@ -13,6 +14,9 @@ export default function Settings() {
   const [c, setC] = useState<Content | null>(null);
   const [backup, setBackup] = useState(false);
   const [base, setBase] = useState('');
+  const [up, setUp] = useState<UpdateState | null>(null);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => onUpdateState(setUp), []);
   useEffect(() => {
     content().then(setC);
     get<string>('kv', 'dataBase').then((v) => setBase(v ?? ''));
@@ -36,6 +40,23 @@ export default function Settings() {
         <Toggle label="TV mode" sub="Bigger everything, for the laptop on the 4K TV across the room" checked={s.tv} onChange={(v) => set({ tv: v })} />
         <Toggle label="Battery saver" sub="Black screen, no animations, lighter map, GPS only while the map is open" checked={s.saver} onChange={(v) => set({ saver: v })} />
         <Toggle label="Metric units" checked={s.metric} onChange={(v) => set({ metric: v })} />
+      </Card>
+      <SectionTitle>App updates</SectionTitle>
+      <Card>
+        <p>Version <b>{APP_VERSION}</b>. Updates download by themselves when you have internet and switch in the next time you open the app. Nothing you saved is touched.</p>
+        <p className="small muted" data-testid="update-status">{
+          !up ? 'Not checked yet this session.'
+          : up.kind === 'current' ? `Up to date (checked ${new Date(up.checked).toLocaleString()}).`
+          : up.kind === 'downloading' ? `Downloading version ${up.version}…`
+          : up.kind === 'ready' ? `Version ${up.version} is downloaded and ready.`
+          : up.kind === 'apk' ? `Version ${up.version} needs a quick install of the new app file.`
+          : up.kind === 'offline' ? 'No internet right now. It will check when you are back online.'
+          : `Could not check: ${up.message}`}</p>
+        <div className="btnrow">
+          <Btn kind="primary" icon="download" disabled={busy} onClick={async () => { setBusy(true); await checkForUpdate(true); setBusy(false); }}>Check for updates</Btn>
+          {up?.kind === 'ready' && <Btn kind="go" onClick={() => void applyNow()}>Update now</Btn>}
+          {up?.kind === 'apk' && <Btn kind="go" onClick={() => window.open(up.apk, '_blank')}>Install</Btn>}
+        </div>
       </Card>
       <SectionTitle>Offline data</SectionTitle>
       <div className="list">
@@ -70,7 +91,7 @@ export default function Settings() {
         </div>
       </Card>
       <SectionTitle>About</SectionTitle>
-      <p className="small muted">Grid-Down Hub, app version {__BUILD_DATE__}. Content checked {c?.local.checked}. Maps © OpenStreetMap contributors (ODbL), tiles © OpenMapTiles; USGS US Topo, ATP 3-50.21, ATP 4-02.11 and FEMA P-2064 are U.S. government works. Not a substitute for training. If phones work, call 911 first.</p>
+      <p className="small muted">Grid-Down Hub {APP_VERSION}, built {__BUILD_DATE__}. Content checked {c?.local.checked}. Maps © OpenStreetMap contributors (ODbL), tiles © OpenMapTiles; USGS US Topo, ATP 3-50.21, ATP 4-02.11 and FEMA P-2064 are U.S. government works. Not a substitute for training. If phones work, call 911 first.</p>
       <BackupSheet open={backup} onClose={() => setBackup(false)} />
     </Screen>
   );

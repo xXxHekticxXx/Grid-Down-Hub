@@ -13,6 +13,9 @@ const config: CapacitorConfig = {
     // Android 15+ draws apps edge to edge. Keep the WebView's safe-area values correct so the top bar
     // (Back, Add, Edit) sits below the phone's status bar instead of under it.
     SystemBars: { insetsHandling: 'native', initialViewportFitValueHint: 'cover' },
+    // In-app updates from the Grid-Down Hub site only (src/lib/updater.ts). Nothing is sent anywhere:
+    // no automatic checks against the plugin maker's servers and no usage statistics.
+    CapacitorUpdater: { autoUpdate: false, statsUrl: '', resetWhenUpdate: true, appReadyTimeout: 15000 },
   },
 };
 
