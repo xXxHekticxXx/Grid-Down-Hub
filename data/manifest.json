@@ -1,6 +1,6 @@
 {
  "version": 1,
- "built": "2026-10-27T13:35:32Z",
+ "built": "2026-11-01T20:43:57Z",
  "osmDate": "2026-10-25",
  "contentChecked": "2026-10-27",
  "packs": [
@@ -393,6 +393,91 @@
    "date": "2026-10-25"
   },
   {
+   "id": "routing",
+   "title": "Florida roads for directions",
+   "description": "The Florida road network from OpenStreetMap for offline turn-by-turn directions (driving and walking)",
+   "required": true,
+   "bytes": 242640329,
+   "files": [
+    {
+     "name": "route-meta.json",
+     "bytes": 4556529,
+     "sha256": "d2220ec2abafc62244a00bc9ff3398b6dd5e72063c698729810c628852c25add",
+     "chunks": [
+      {
+       "bytes": 4556529,
+       "sha256": "d2220ec2abafc62244a00bc9ff3398b6dd5e72063c698729810c628852c25add"
+      }
+     ]
+    },
+    {
+     "name": "route-nodes.bin",
+     "bytes": 27213968,
+     "sha256": "34e0568bc65c78ce33a7b9846d534ca369426e54f64070325f22d4aa4025f3e5",
+     "chunks": [
+      {
+       "bytes": 27213968,
+       "sha256": "34e0568bc65c78ce33a7b9846d534ca369426e54f64070325f22d4aa4025f3e5"
+      }
+     ]
+    },
+    {
+     "name": "route-adj.bin",
+     "bytes": 48054812,
+     "sha256": "e7353cf3c44bb6c7ca01936fab8765f3f648e10080a90d30d1526a275b8b65d4",
+     "chunks": [
+      {
+       "bytes": 33554432,
+       "sha256": "cfeefb5d012326a496fc328c593b57b1c96adc24c963ac7b543f09a1025e2e00"
+      },
+      {
+       "bytes": 14500380,
+       "sha256": "398f8ec196bfad57688c67c3adad4a6bec8d9e9dc8a13711ad7ac2aff2982f45"
+      }
+     ]
+    },
+    {
+     "name": "route-edges.bin",
+     "bytes": 103343496,
+     "sha256": "0679fa95ddd3417860f39f3637d4fd0e35d4f7d7dfb26efe6e657641211bb91f",
+     "chunks": [
+      {
+       "bytes": 33554432,
+       "sha256": "fcfa9d8aa004cabac8bc05a144b5219353d4a655b1f8080e1df86d85ea2f7ec7"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "68ae215368223aa6b4d108ae4469495a5a88ebfa94d8b93d630411b07bc07eb0"
+      },
+      {
+       "bytes": 33554432,
+       "sha256": "5d4a924c9b81062f492a124f82e8be848c1e9c0abd593c525eb10b89c22d2a48"
+      },
+      {
+       "bytes": 2680200,
+       "sha256": "0d5ebcf75739b3b68b5cdce3058b5cf41fc101686d4121d4cb322ea5344a400e"
+      }
+     ]
+    },
+    {
+     "name": "route-geom.bin",
+     "bytes": 59471524,
+     "sha256": "cad0f3143ae8dbef65dafadf7a49cbe51ed5cf9ef525ae5b410c7aeba97f8cc5",
+     "chunks": [
+      {
+       "bytes": 33554432,
+       "sha256": "1d79010c5b5cc01e63d8442ebc3bf100d9dc211c67bb358c84ef5d75009b7140"
+      },
+      {
+       "bytes": 25917092,
+       "sha256": "9f907cb973514920a1f0af3005796db15c272813f7a1936a53329541af78697b"
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-25"
+  },
+  {
    "id": "library",
    "title": "Library: survival and first aid manuals",
    "description": "ATP 3-50.21 Survival, ATP 4-02.11 Casualty Response and First Aid, FEMA P-2064 Are You Ready? (original PDFs)",
@@ -437,107 +522,107 @@
   },
   {
    "id": "topo-pdf-home",
-   "title": "USGS topo PDFs: home area (9 originals)",
-   "description": "Sorrento and the 8 quads around it, original USGS GeoPDFs, print-ready",
+   "title": "USGS topo PDFs: home area (9 print editions)",
+   "description": "Sorrento and the 8 quads around it: print editions of the USGS GeoPDFs without the aerial photo layer, still georeferenced",
    "required": true,
-   "bytes": 174234844,
+   "bytes": 28323537,
    "files": [
     {
-     "name": "FL_Sorrento_20150817_TM_geo.pdf",
-     "bytes": 20416166,
-     "sha256": "24518f567c9ddcaae30b41cbeb5eafa81c808fa82b3846f6c9c44fb68f0a7175",
+     "name": "FL_Sorrento_20150817_print.pdf",
+     "bytes": 3653594,
+     "sha256": "c2eb7bf5dadbab9e606b7e76b05403cf226be575a042ceb08bd4d0c4e699ba89",
      "chunks": [
       {
-       "bytes": 20416166,
-       "sha256": "24518f567c9ddcaae30b41cbeb5eafa81c808fa82b3846f6c9c44fb68f0a7175"
+       "bytes": 3653594,
+       "sha256": "c2eb7bf5dadbab9e606b7e76b05403cf226be575a042ceb08bd4d0c4e699ba89"
       }
      ]
     },
     {
-     "name": "FL_Umatilla_20150817_TM_geo.pdf",
-     "bytes": 20091639,
-     "sha256": "766eebf35949070b3e662c5ca8a9127226c0830ab112a4ba3168323d67c159f0",
+     "name": "FL_Umatilla_20150817_print.pdf",
+     "bytes": 4095881,
+     "sha256": "803f4b23e91da2d79c626a7fa9de2a35a0e1760384dd472ce7f89c14a0b64073",
      "chunks": [
       {
-       "bytes": 20091639,
-       "sha256": "766eebf35949070b3e662c5ca8a9127226c0830ab112a4ba3168323d67c159f0"
+       "bytes": 4095881,
+       "sha256": "803f4b23e91da2d79c626a7fa9de2a35a0e1760384dd472ce7f89c14a0b64073"
       }
      ]
     },
     {
-     "name": "FL_Paisley_20150817_TM_geo.pdf",
-     "bytes": 20158715,
-     "sha256": "7f67cd5702607f0cd312d040bb2d2da46884a9131eb513ad6b0b8d459ac0591c",
+     "name": "FL_Paisley_20150817_print.pdf",
+     "bytes": 3162590,
+     "sha256": "85bc2a0ec4e3c9767f8ebdfbab644f82899c550d11962a14dde7da81dd79fb47",
      "chunks": [
       {
-       "bytes": 20158715,
-       "sha256": "7f67cd5702607f0cd312d040bb2d2da46884a9131eb513ad6b0b8d459ac0591c"
+       "bytes": 3162590,
+       "sha256": "85bc2a0ec4e3c9767f8ebdfbab644f82899c550d11962a14dde7da81dd79fb47"
       }
      ]
     },
     {
-     "name": "FL_Pine_Lakes_20150817_TM_geo.pdf",
-     "bytes": 21801024,
-     "sha256": "54a6cd1d57e43c37ff9672356a40e5b9b89a48857a3284d17e4f7b216d059076",
+     "name": "FL_Pine_Lakes_20150817_print.pdf",
+     "bytes": 3136297,
+     "sha256": "3bef3b5b25e159f3f86e6603f77a1097ad1e20acbf7c6c17f731e6b032ba57c4",
      "chunks": [
       {
-       "bytes": 21801024,
-       "sha256": "54a6cd1d57e43c37ff9672356a40e5b9b89a48857a3284d17e4f7b216d059076"
+       "bytes": 3136297,
+       "sha256": "3bef3b5b25e159f3f86e6603f77a1097ad1e20acbf7c6c17f731e6b032ba57c4"
       }
      ]
     },
     {
-     "name": "FL_Eustis_20150817_TM_geo.pdf",
-     "bytes": 18358464,
-     "sha256": "5edd130347de8a6d28f35481d1838f3fc33eeae9eea3f47f4a1859c0fe641e8b",
+     "name": "FL_Eustis_20150817_print.pdf",
+     "bytes": 2980153,
+     "sha256": "ee4ed9cd8f5312300416fe906a7882975e94942e1ab2f415f667923d2ad26583",
      "chunks": [
       {
-       "bytes": 18358464,
-       "sha256": "5edd130347de8a6d28f35481d1838f3fc33eeae9eea3f47f4a1859c0fe641e8b"
+       "bytes": 2980153,
+       "sha256": "ee4ed9cd8f5312300416fe906a7882975e94942e1ab2f415f667923d2ad26583"
       }
      ]
     },
     {
-     "name": "FL_Sanford_SW_20150817_TM_geo.pdf",
-     "bytes": 20321424,
-     "sha256": "db19e529277e2b6805f676d66dae11e6017c5f916dec7a8dd12b80a0fc226ec5",
+     "name": "FL_Sanford_SW_20150817_print.pdf",
+     "bytes": 2082784,
+     "sha256": "4d92e0951e34ddd8c0bac2fd39adefdd30d711be5bae23e6c9b7f93cdcbbace4",
      "chunks": [
       {
-       "bytes": 20321424,
-       "sha256": "db19e529277e2b6805f676d66dae11e6017c5f916dec7a8dd12b80a0fc226ec5"
+       "bytes": 2082784,
+       "sha256": "4d92e0951e34ddd8c0bac2fd39adefdd30d711be5bae23e6c9b7f93cdcbbace4"
       }
      ]
     },
     {
-     "name": "FL_Astatula_20150817_TM_geo.pdf",
-     "bytes": 16450991,
-     "sha256": "4d0bf6e8a3579829cde71761d110987369a5ba1c79f6123fd043dc2f0533945a",
+     "name": "FL_Astatula_20150817_print.pdf",
+     "bytes": 2345291,
+     "sha256": "bcee887ba5af2c1a0a2005dc478aca2f5dfc9a5b81bea79a70ec8435247a4808",
      "chunks": [
       {
-       "bytes": 16450991,
-       "sha256": "4d0bf6e8a3579829cde71761d110987369a5ba1c79f6123fd043dc2f0533945a"
+       "bytes": 2345291,
+       "sha256": "bcee887ba5af2c1a0a2005dc478aca2f5dfc9a5b81bea79a70ec8435247a4808"
       }
      ]
     },
     {
-     "name": "FL_Apopka_20150817_TM_geo.pdf",
-     "bytes": 16489708,
-     "sha256": "77cb284b8eb821b0aa2d31871da7b9bbb8d26b9fd39b97f3c8237fc5d9f3b462",
+     "name": "FL_Apopka_20150817_print.pdf",
+     "bytes": 3207825,
+     "sha256": "8778522fe2f1e0be1aa460b9bd5ce9f42726280ceac2ee30560701c12d286275",
      "chunks": [
       {
-       "bytes": 16489708,
-       "sha256": "77cb284b8eb821b0aa2d31871da7b9bbb8d26b9fd39b97f3c8237fc5d9f3b462"
+       "bytes": 3207825,
+       "sha256": "8778522fe2f1e0be1aa460b9bd5ce9f42726280ceac2ee30560701c12d286275"
       }
      ]
     },
     {
-     "name": "FL_Forest_City_20150817_TM_geo.pdf",
-     "bytes": 20146713,
-     "sha256": "3f7ec72aaea2ee205cca3f23e534240b74ba2e207513c9c8196965e17b985a80",
+     "name": "FL_Forest_City_20150817_print.pdf",
+     "bytes": 3659122,
+     "sha256": "dea4b79e6c2bc102b81a73e09f9cc8f801dbd66f9ad7adc23b3ea5fed9c66ae7",
      "chunks": [
       {
-       "bytes": 20146713,
-       "sha256": "3f7ec72aaea2ee205cca3f23e534240b74ba2e207513c9c8196965e17b985a80"
+       "bytes": 3659122,
+       "sha256": "dea4b79e6c2bc102b81a73e09f9cc8f801dbd66f9ad7adc23b3ea5fed9c66ae7"
       }
      ]
     }
