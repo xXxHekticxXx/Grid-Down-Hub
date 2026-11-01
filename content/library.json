@@ -65,7 +65,7 @@
   "title": "USGS US Topo: Apopka, FL (2015)",
   "kind": "topo",
   "pack": "topo-pdf-home",
-  "file": "FL_Apopka_20150817_TM_geo.pdf",
+  "file": "FL_Apopka_20150817_print.pdf",
   "note": "Original USGS GeoPDF (public domain). Print at 100% on 22x27 in or scale to fit.",
   "date": "2015-08-17",
   "bbox": [
@@ -85,7 +85,7 @@
   "title": "USGS US Topo: Astatula, FL (2015)",
   "kind": "topo",
   "pack": "topo-pdf-home",
-  "file": "FL_Astatula_20150817_TM_geo.pdf",
+  "file": "FL_Astatula_20150817_print.pdf",
   "note": "Original USGS GeoPDF (public domain). Print at 100% on 22x27 in or scale to fit.",
   "date": "2015-08-17",
   "bbox": [
@@ -185,7 +185,7 @@
   "title": "USGS US Topo: Eustis, FL (2015)",
   "kind": "topo",
   "pack": "topo-pdf-home",
-  "file": "FL_Eustis_20150817_TM_geo.pdf",
+  "file": "FL_Eustis_20150817_print.pdf",
   "note": "Original USGS GeoPDF (public domain). Print at 100% on 22x27 in or scale to fit.",
   "date": "2015-08-17",
   "bbox": [
@@ -225,7 +225,7 @@
   "title": "USGS US Topo: Forest City, FL (2015)",
   "kind": "topo",
   "pack": "topo-pdf-home",
-  "file": "FL_Forest_City_20150817_TM_geo.pdf",
+  "file": "FL_Forest_City_20150817_print.pdf",
   "note": "Original USGS GeoPDF (public domain). Print at 100% on 22x27 in or scale to fit.",
   "date": "2015-08-17",
   "bbox": [
@@ -425,7 +425,7 @@
   "title": "USGS US Topo: Paisley, FL (2015)",
   "kind": "topo",
   "pack": "topo-pdf-home",
-  "file": "FL_Paisley_20150817_TM_geo.pdf",
+  "file": "FL_Paisley_20150817_print.pdf",
   "note": "Original USGS GeoPDF (public domain). Print at 100% on 22x27 in or scale to fit.",
   "date": "2015-08-17",
   "bbox": [
@@ -445,7 +445,7 @@
   "title": "USGS US Topo: Pine Lakes, FL (2015)",
   "kind": "topo",
   "pack": "topo-pdf-home",
-  "file": "FL_Pine_Lakes_20150817_TM_geo.pdf",
+  "file": "FL_Pine_Lakes_20150817_print.pdf",
   "note": "Original USGS GeoPDF (public domain). Print at 100% on 22x27 in or scale to fit.",
   "date": "2015-08-17",
   "bbox": [
@@ -485,7 +485,7 @@
   "title": "USGS US Topo: Sanford SW, FL (2015)",
   "kind": "topo",
   "pack": "topo-pdf-home",
-  "file": "FL_Sanford_SW_20150817_TM_geo.pdf",
+  "file": "FL_Sanford_SW_20150817_print.pdf",
   "note": "Original USGS GeoPDF (public domain). Print at 100% on 22x27 in or scale to fit.",
   "date": "2015-08-17",
   "bbox": [
@@ -505,7 +505,7 @@
   "title": "USGS US Topo: Sorrento, FL (2015)",
   "kind": "topo",
   "pack": "topo-pdf-home",
-  "file": "FL_Sorrento_20150817_TM_geo.pdf",
+  "file": "FL_Sorrento_20150817_print.pdf",
   "note": "Original USGS GeoPDF (public domain). Print at 100% on 22x27 in or scale to fit.",
   "date": "2015-08-17",
   "bbox": [
@@ -525,7 +525,7 @@
   "title": "USGS US Topo: Umatilla, FL (2015)",
   "kind": "topo",
   "pack": "topo-pdf-home",
-  "file": "FL_Umatilla_20150817_TM_geo.pdf",
+  "file": "FL_Umatilla_20150817_print.pdf",
   "note": "Original USGS GeoPDF (public domain). Print at 100% on 22x27 in or scale to fit.",
   "date": "2015-08-17",
   "bbox": [

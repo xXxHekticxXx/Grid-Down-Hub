@@ -20,11 +20,14 @@ import type { Pin } from '../types';
 import { saveItem } from '../lib/content';
 import { cornersFromTwoPoints } from '../lib/geoformats';
 import { searchAddress, type AddressHit } from '../lib/address';
+import { findRoutes, nearestEdge, roadStretch, edgeName, progressOnRoute, type Route, type Mode, type LonLat } from '../lib/routing';
+import { loadGraph, blockedRoads, blockedSet, addBlocked, clearBlocked, speak, spokenDistance, type BlockedRoad } from '../lib/nav';
+import { RoutePanel, NavBanner, NavBottom, BlockConfirm } from './MapNav';
 
 export type UserMap = { id: string; name: string; kind: 'pmtiles' | 'geojson' | 'image'; visible: boolean; color: string; file?: string; data?: GeoJSON.FeatureCollection; corners?: [number, number][]; opacity?: number; created: number };
 export type Track = { id: string; name: string; points: [number, number, number][]; created: number; color?: string };
 
-type Panel = null | 'layers' | 'pin' | 'pins' | 'measure' | 'tracks' | 'poi' | 'address';
+type Panel = null | 'layers' | 'pin' | 'pins' | 'measure' | 'tracks' | 'poi' | 'address' | 'route' | 'block';
 const FMT = ['dd', 'ddm', 'usng'] as const;
 
 function circle(center: [number, number], radiusM: number, n = 96): GeoJSON.Feature<GeoJSON.Polygon> {
@@ -65,6 +68,27 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
   const [showFuel, setShowFuel] = useState(query.get('fuel') === '1');
   const [showRoutes, setShowRoutes] = useState(query.get('routes') === '1');
   const [topoOpacity, setTopoOpacity] = useState(0.85);
+  // directions
+  const [dest, setDest] = useState<{ name: string; ll: LonLat } | null>(null);
+  const [mode, setMode] = useState<Mode>('drive');
+  const [routes, setRoutes] = useState<Route[] | null>(null);
+  const [routeSel, setRouteSel] = useState(0);
+  const [routeBusy, setRouteBusy] = useState('');
+  const [routeMissing, setRouteMissing] = useState(false);
+  const [blocked, setBlocked] = useState<BlockedRoad[]>([]);
+  const [nav, setNav] = useState<Route | null>(null);
+  const [navIdx, setNavIdx] = useState(0);
+  const [navAlong, setNavAlong] = useState(0);
+  const [overview, setOverview] = useState(false);
+  const [voice, setVoice] = useState(true);
+  const [blockPick, setBlockPick] = useState<{ name: string; edges: number[]; at: LonLat; shape: LonLat[][] } | null>(null);
+  const [blockShapes, setBlockShapes] = useState<LonLat[][]>([]);
+  const blockModeRef = useRef(false);
+  const navRef = useRef<Route | null>(null);
+  navRef.current = nav;
+  const spoken = useRef(new Set<string>());
+  const offCount = useRef(0);
+  const lastReroute = useRef(0);
   const fixRef = useRef<Fix | null>(null);
   const measureRef = useRef(measure);
   measureRef.current = measure;
@@ -171,6 +195,10 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
           const next = [...calibRef.current, [e.lngLat.lng, e.lngLat.lat] as [number, number]];
           setCalib(next);
           if (next.length === 2) void finishCalib(next);
+          return;
+        }
+        if (blockModeRef.current) {
+          void pickBlock([e.lngLat.lng, e.lngLat.lat]);
           return;
         }
         if (panelRef.current === 'measure') {
@@ -312,6 +340,13 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
     }
     addSrc('target');
     if (!map.getLayer('target-line')) map.addLayer({ id: 'target-line', type: 'line', source: 'target', paint: { 'line-color': '#1F5C36', 'line-width': 3, 'line-dasharray': [1, 1.5] } });
+    addSrc('nav');
+    if (!map.getLayer('nav-alt')) {
+      map.addLayer({ id: 'nav-alt', type: 'line', source: 'nav', filter: ['==', ['get', 'k'], 'alt'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#7C8A99', 'line-width': 7, 'line-opacity': 0.8 } });
+      map.addLayer({ id: 'nav-case', type: 'line', source: 'nav', filter: ['==', ['get', 'k'], 'main'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': night ? '#000' : '#0B3F8C', 'line-width': 11 } });
+      map.addLayer({ id: 'nav-main', type: 'line', source: 'nav', filter: ['==', ['get', 'k'], 'main'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': night ? '#FF4A3D' : '#1D6FE0', 'line-width': 7 } });
+      map.addLayer({ id: 'nav-blocked', type: 'line', source: 'nav', filter: ['==', ['get', 'k'], 'blocked'], layout: { 'line-cap': 'round' }, paint: { 'line-color': '#B3141C', 'line-width': 8, 'line-dasharray': [1.5, 1] } });
+    }
     addSrc('pins');
     if (!map.hasImage('pin-img')) {
       const m = markerImage('#161A17', '★', night);
@@ -350,13 +385,22 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
     setData('fuel', fc(showFuel && r.usable > 0 ? [circle(from, r.usable * 1609.344)] : []));
     const all = [...tracks, ...(rec ? [rec] : [])];
     setData('tracks', fc(all.filter((t) => t.points.length > 1).map((t) => ({ type: 'Feature', properties: { name: t.name, color: t.color }, geometry: { type: 'LineString', coordinates: t.points.map((p) => [p[0], p[1]]) } }))));
+    const navLines: GeoJSON.Feature[] = [];
+    const shown = nav ? [nav] : routes ?? [];
+    shown.forEach((r, i) => {
+      const line = nav ? r.line.slice(Math.max(0, navIdx)) : r.line;
+      if (line.length > 1) navLines.push({ type: 'Feature', properties: { k: nav || i === routeSel ? 'main' : 'alt' }, geometry: { type: 'LineString', coordinates: line } });
+    });
+    navLines.sort((a) => (a.properties!.k === 'alt' ? -1 : 1));
+    for (const sh of [...blockShapes, ...(blockPick ? blockPick.shape : [])]) navLines.push({ type: 'Feature', properties: { k: 'blocked' }, geometry: { type: 'LineString', coordinates: sh } });
+    setData('nav', fc(navLines));
     for (const L of POI_LAYERS) if (map.getLayer(`poi-${L.id}`)) map.setLayoutProperty(`poi-${L.id}`, 'visibility', s.layers.includes(L.id) ? 'visible' : 'none');
     if (map.getLayer('pins-sym')) map.setLayoutProperty('pins-sym', 'visibility', s.layers.includes('mypins') ? 'visible' : 'none');
     for (const id of ['routes-line', 'routes-label']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', showRoutes ? 'visible' : 'none');
   };
   useEffect(() => {
     if (ready) refreshAll.current();
-  }, [ready, pins, measure, fix, target, fuel, showFuel, tracks, rec, s.layers, showRoutes, center]);
+  }, [ready, pins, measure, fix, target, fuel, showFuel, tracks, rec, s.layers, showRoutes, center, routes, routeSel, nav, navIdx, blockShapes, blockPick]);
 
   // layer forced on from a link (e.g. "nearest hospital")
   useEffect(() => {
@@ -382,7 +426,7 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
     };
   }, []);
   useEffect(() => {
-    if (follow && fix && mapRef.current) mapRef.current.easeTo({ center: [fix.lon, fix.lat], duration: s.saver ? 0 : 400 });
+    if (follow && !navRef.current && fix && mapRef.current) mapRef.current.easeTo({ center: [fix.lon, fix.lat], duration: s.saver ? 0 : 400 });
   }, [follow, fix, s.saver]);
   // track recording
   useEffect(() => {
@@ -421,6 +465,162 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
     setPanel('pin');
     if (dropSection) await saveItem({ section: dropSection, kind: 'pin', title: p.name, pinId: p.id });
   }
+  // ---------- directions ----------
+  const fromHere = (): LonLat => (fixRef.current ? [fixRef.current.lon, fixRef.current.lat] : (() => { const c = mapRef.current?.getCenter(); return c ? [c.lng, c.lat] as LonLat : center; })());
+  async function refreshBlocked() {
+    const g = await loadGraph();
+    if (!g) return new Set<number>();
+    const list = await blockedRoads(g);
+    setBlocked(list);
+    const shapes: LonLat[][] = [];
+    for (const b of list) for (const e of b.edges.slice(0, 400)) shapes.push(await edgeLine(e));
+    setBlockShapes(shapes);
+    return blockedSet(g);
+  }
+  async function edgeLine(e: number): Promise<LonLat[]> {
+    const g = await loadGraph();
+    if (!g) return [];
+    const off = g.eu32[e * 6 + 4];
+    const cnt = g.eu32[(e + 1) * 6 + 4] - off;
+    const d = await g.readGeom(off, cnt);
+    const a = g.eu32[e * 6];
+    let lat = g.nodes[a * 2], lon = g.nodes[a * 2 + 1];
+    const pts: LonLat[] = [[lon / 1e6, lat / 1e6]];
+    for (let i = 0; i < cnt; i++) { lat += d[i * 2]; lon += d[i * 2 + 1]; pts.push([lon / 1e6, lat / 1e6]); }
+    return pts;
+  }
+  async function planRoute(to: { name: string; ll: LonLat }, m: Mode = mode) {
+    setDest(to);
+    setPanel('route');
+    setRoutes(null);
+    setRouteSel(0);
+    setRouteBusy('Loading the Florida road map…');
+    const g = await loadGraph();
+    if (!g) { setRouteMissing(true); setRouteBusy(''); return; }
+    setRouteMissing(false);
+    const bl = await refreshBlocked();
+    setRouteBusy('Finding the route…');
+    await new Promise((r) => setTimeout(r, 30));
+    const rs = await findRoutes(g, fromHere(), to.ll, m, bl);
+    setRoutes(rs);
+    setRouteBusy('');
+    const map = mapRef.current;
+    if (map && rs[0]) {
+      const xs = rs.flatMap((r) => r.line.map((p) => p[0])), ys = rs.flatMap((r) => r.line.map((p) => p[1]));
+      map.fitBounds([[Math.min(...xs), Math.min(...ys)], [Math.max(...xs), Math.max(...ys)]], { padding: { top: 120, bottom: Math.round(window.innerHeight * 0.5), left: 40, right: 80 }, duration: s.saver ? 0 : 600 });
+    }
+  }
+  function startNav() {
+    const r = routes?.[routeSel];
+    if (!r) return;
+    spoken.current = new Set();
+    offCount.current = 0;
+    setNav(r);
+    setNavIdx(0);
+    setNavAlong(0);
+    setOverview(false);
+    setPanel(null);
+    setFollow(true);
+    void keepAwake(true);
+    if (voice) void speak(`${r.steps[0]?.text ?? 'Starting route'}. ${fmtSpoken(r.durationS)} to ${dest?.name ?? 'your destination'}.`);
+  }
+  function endNav(say?: string) {
+    setNav(null);
+    setRoutes(null);
+    setDest(null);
+    void keepAwake(false);
+    mapRef.current?.easeTo({ pitch: 0, bearing: 0, duration: 500 });
+    if (say && voice) void speak(say);
+  }
+  const fmtSpoken = (sec: number) => { const m = Math.max(1, Math.round(sec / 60)); return m < 60 ? `${m} minutes` : `${Math.floor(m / 60)} hours ${m % 60} minutes`; };
+  async function pickBlock(ll: LonLat) {
+    blockModeRef.current = false;
+    const g = await loadGraph();
+    if (!g) return;
+    const e = nearestEdge(g, ll, mode);
+    if (e < 0) return;
+    const edges = roadStretch(g, e);
+    const shape: LonLat[][] = [];
+    for (const x of edges.slice(0, 400)) shape.push(await edgeLine(x));
+    setBlockPick({ name: edgeName(g, e), edges, at: ll, shape });
+    setPanel('block');
+  }
+  async function confirmBlock() {
+    const g = await loadGraph();
+    if (!g || !blockPick) return;
+    await addBlocked(g, blockPick.name, blockPick.edges, blockPick.at);
+    setBlockPick(null);
+    toast('Road blocked. Re-routing.');
+    if (nav && dest) {
+      const bl = await refreshBlocked();
+      const rs = await findRoutes(g, fromHere(), dest.ll, nav.mode, bl);
+      if (rs[0]) { setNav(rs[0]); setNavIdx(0); spoken.current = new Set(); }
+      setPanel(null);
+    } else if (dest) {
+      await planRoute(dest);
+    } else {
+      await refreshBlocked();
+      setPanel(null);
+    }
+  }
+  function beginBlockPick() {
+    blockModeRef.current = true;
+    setPanel(null);
+    toast('Tap the blocked road on the map');
+  }
+  // follow progress along the route, speak turns, re-route when off course
+  useEffect(() => {
+    if (!nav || !fix) return;
+    const p: LonLat = [fix.lon, fix.lat];
+    const pr = progressOnRoute(nav, p, navIdx);
+    setNavIdx(pr.index);
+    setNavAlong(pr.alongM);
+    const left = nav.distanceM - pr.alongM;
+    if (left < 30) { endNav('You have arrived.'); toast('You have arrived'); return; }
+    // off route?
+    const limit = (nav.mode === 'drive' ? 60 : 35) + Math.min(fix.acc, 60);
+    offCount.current = pr.offM > limit ? offCount.current + 1 : 0;
+    if (offCount.current >= 3 && Date.now() - lastReroute.current > 8000 && dest) {
+      lastReroute.current = Date.now();
+      offCount.current = 0;
+      if (voice) void speak('Rerouting.');
+      (async () => {
+        const g = await loadGraph();
+        if (!g) return;
+        const rs = await findRoutes(g, p, dest.ll, nav.mode, await blockedSet(g));
+        if (rs[0]) { setNav(rs[0]); setNavIdx(0); spoken.current = new Set(); }
+      })();
+      return;
+    }
+    // next instruction and voice prompts
+    const i = nav.steps.findIndex((st) => st.distM > pr.alongM + 5 && st.type !== 'depart');
+    if (i >= 0 && voice) {
+      const st = nav.steps[i];
+      const d = st.distM - pr.alongM;
+      const far = nav.mode === 'drive' ? 800 : 120;
+      const near = nav.mode === 'drive' ? Math.max(120, (fix.speed ?? 15) * 8) : 25;
+      if (d < far && d > near * 1.5 && !spoken.current.has(`${i}f`)) { spoken.current.add(`${i}f`); void speak(`In ${spokenDistance(d, s.metric)}, ${st.text.toLowerCase()}`); }
+      if (d <= near && !spoken.current.has(`${i}n`)) { spoken.current.add(`${i}n`); spoken.current.add(`${i}f`); void speak(st.text); }
+    }
+    // camera: follow, pointing the way you're going
+    const map = mapRef.current;
+    if (map && !overview) {
+      const a = nav.line[pr.index], b = nav.line[Math.min(nav.line.length - 1, pr.index + 3)];
+      const course = fix.speed != null && fix.speed > 2 && fix.heading != null ? fix.heading : bearingDeg(a, b);
+      map.easeTo({ center: p, bearing: course, pitch: s.saver ? 0 : 35, zoom: nav.mode === 'drive' ? 16.3 : 17.5, padding: { top: 220, bottom: 160, left: 0, right: 0 }, duration: s.saver ? 0 : 900 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fix, nav]);
+  useEffect(() => {
+    if (ready) void refreshBlocked();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready]);
+  useEffect(() => {
+    if (!nav || !overview || !mapRef.current) return;
+    const xs = nav.line.map((p) => p[0]), ys = nav.line.map((p) => p[1]);
+    mapRef.current.fitBounds([[Math.min(...xs), Math.min(...ys)], [Math.max(...xs), Math.max(...ys)]], { padding: 80, bearing: 0, pitch: 0, duration: 600 });
+  }, [overview, nav]);
+
   const pdf = async () => {
     const map = mapRef.current;
     if (!map) return;
@@ -448,7 +648,17 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
     <div className="map-screen">
       <div className="map-wrap">
         <div ref={el} className="map-canvas" data-testid="map" aria-label="Map" />
-        <div className="map-top">
+        {nav && (() => {
+          const i = nav.steps.findIndex((st) => st.distM > navAlong + 5 && st.type !== 'depart');
+          const st = nav.steps[i >= 0 ? i : nav.steps.length - 1];
+          const nxt = i >= 0 ? nav.steps[i + 1] : undefined;
+          return (
+            <div className="map-top nav-top">
+              <NavBanner step={st} distM={Math.max(0, st.distM - navAlong)} then={nxt && nxt.distM - st.distM < 500 ? nxt : undefined} metric={s.metric} />
+            </div>
+          );
+        })()}
+        <div className="map-top" hidden={!!nav}>
           <button className="map-coords" onClick={() => set({ coordFormat: FMT[(FMT.indexOf(fmt) + 1) % 3] })} aria-label="Coordinates, tap to change format" data-testid="coords">
             <b>{fix ? 'You' : 'Map center'}: {coordText}</b>
             <br />
@@ -459,7 +669,14 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
             <span className="small muted">{fix ? `GPS ± ${fmtDistance(fix.acc, s.metric)}` : gpsMsg || 'Waiting for GPS…'} · z{zoom.toFixed(1)}</span>
           </button>
         </div>
-        <div className="map-side">
+        {nav && (
+          <div className="map-side nav-side">
+            <button className="map-fab" aria-pressed={voice} onClick={() => setVoice(!voice)} aria-label={voice ? 'Voice on, tap to mute' : 'Voice off, tap to turn on'} data-testid="nav-voice">{voice ? '🔊' : '🔇'}</button>
+            <button className="map-fab" onClick={beginBlockPick} aria-label="Mark a road blocked" data-testid="nav-block">⛔</button>
+            <button className="map-fab" onClick={() => { setOverview(false); setFollow(true); }} aria-label="Center on me"><Icon name="locate" /></button>
+          </div>
+        )}
+        <div className="map-side" hidden={!!nav}>
           <button className="map-fab" aria-pressed={follow} onClick={() => { setFollow(true); if (fix) mapRef.current?.flyTo({ center: [fix.lon, fix.lat], zoom: Math.max(zoom, 15) }); else toast(gpsMsg || 'Waiting for GPS. GPS works without cell service.'); }} aria-label="Center on my location" data-testid="locate"><Icon name="locate" /></button>
           <button className="map-fab" onClick={() => mapRef.current?.resetNorth()} aria-label={heading == null ? 'North up' : `Heading ${Math.round(heading)} degrees, tap for north up`}>{heading == null ? 'N' : `${cardinal(heading)} ${Math.round(heading)}°`}</button>
           <button className="map-fab" aria-pressed={panel === 'layers'} onClick={() => setPanel(panel === 'layers' ? null : 'layers')} aria-label="Layers" data-testid="layers-btn"><Icon name="layers" /></button>
@@ -517,14 +734,23 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
                 <Btn icon="plus" onClick={() => newPinAt(fix ? [fix.lon, fix.lat] : center)}>Pin {fix ? 'my location' : 'the map center'}</Btn>
               </div>
             )}
+            {panel === 'route' && dest && (
+              <RoutePanel dest={dest.name} mode={mode} setMode={(m) => { setMode(m); void planRoute(dest, m); }} routes={routes} busy={routeBusy} sel={routeSel} setSel={setRouteSel}
+                metric={s.metric} fromGps={!!fix} blocked={blocked} missing={routeMissing} onStart={startNav} onBlock={beginBlockPick}
+                onClearBlocked={async () => { await clearBlocked(); await refreshBlocked(); if (dest) await planRoute(dest); }}
+                onClose={() => { setPanel(null); setRoutes(null); setDest(null); }} />
+            )}
+            {panel === 'block' && blockPick && (
+              <BlockConfirm name={blockPick.name} onCancel={() => { setBlockPick(null); setPanel(dest && !nav ? 'route' : null); }} onBlock={() => void confirmBlock()} />
+            )}
             {panel === 'address' && (
-              <AddressPanel here={here} metric={s.metric}
+              <AddressPanel here={here} metric={s.metric} onDirections={(h) => void planRoute({ name: h.label, ll: [h.lon, h.lat] })}
                 onShow={(h) => { mapRef.current?.flyTo({ center: [h.lon, h.lat], zoom: 17 }); }}
                 onSave={async (h, name) => { mapRef.current?.flyTo({ center: [h.lon, h.lat], zoom: 17 }); await newPinAt([h.lon, h.lat], name || h.label, h.label); toast('Pin saved'); }}
                 onClose={() => setPanel(null)} />
             )}
             {panel === 'pin' && pinEdit && (
-              <PinEditor pin={pinEdit} here={here} metric={s.metric} onGo={() => { setTarget(pinEdit); setPanel(null); }} onClose={() => setPanel(null)} />
+              <PinEditor pin={pinEdit} here={here} metric={s.metric} onDirections={(name) => void planRoute({ name, ll: [pinEdit.lon, pinEdit.lat] })} onGo={() => { setTarget(pinEdit); setPanel(null); }} onClose={() => setPanel(null)} />
             )}
             {panel === 'poi' && poi && (
               <div className="stack" data-testid="poi-panel">
@@ -539,7 +765,8 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
                 <div>{fmtDistance(distanceM(here, poi.lngLat), s.metric)} · {Math.round(bearingDeg(here, poi.lngLat))}° {cardinal(bearingDeg(here, poi.lngLat))} {fix ? 'from you' : 'from map center'}</div>
                 <div className="small muted">{fmtDD(poi.lngLat[1], poi.lngLat[0])} · USNG {fmtUSNG(poi.lngLat[1], poi.lngLat[0])} · © OpenStreetMap contributors</div>
                 <div className="btnrow">
-                  <Btn kind="go" icon="route" onClick={() => { setTarget({ id: 'poi', name: String(poi.props.name ?? 'place'), lon: poi.lngLat[0], lat: poi.lngLat[1], kind: 'pin', created: 0, updated: 0 }); setPanel(null); }}>Go to</Btn>
+                  <Btn kind="go" icon="route" onClick={() => void planRoute({ name: String(poi.props.name ?? 'this place'), ll: poi.lngLat })}>Directions</Btn>
+                  <Btn icon="compass" onClick={() => { setTarget({ id: 'poi', name: String(poi.props.name ?? 'place'), lon: poi.lngLat[0], lat: poi.lngLat[1], kind: 'pin', created: 0, updated: 0 }); setPanel(null); }}>Straight line</Btn>
                   <Btn icon="pin" onClick={async () => { const p: Pin = { id: uid(), name: String(poi.props.name ?? 'Saved place'), lon: poi.lngLat[0], lat: poi.lngLat[1], kind: 'pin', note: [poi.props.street, poi.props.phone].filter(Boolean).join(' · '), created: Date.now(), updated: Date.now() }; await put('pins', p.id, p); toast('Saved as a pin'); }}>Save as pin</Btn>
                   <Btn onClick={() => setPanel(null)}>Close</Btn>
                 </div>
@@ -548,7 +775,11 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
           </div>
         )}
       </div>
-      <nav className="dock map-dock" aria-label="Map buttons">
+      {nav && !panel && (
+        <NavBottom remainM={Math.max(0, nav.distanceM - navAlong)} remainS={nav.durationS * Math.max(0, 1 - navAlong / nav.distanceM)} metric={s.metric}
+          speedMs={fix?.speed ?? null} overview={overview} onOverview={() => setOverview(!overview)} onEnd={() => endNav()} />
+      )}
+      <nav className="dock map-dock" aria-label="Map buttons" hidden={!!nav}>
         <button className="btn dock-back" onClick={back} data-testid="back"><Icon name="back" size={24} /><span>Back</span></button>
         <button className="btn btn-go" aria-pressed={panel === 'address'} onClick={() => setPanel(panel === 'address' ? null : 'address')} data-testid="pin-address-btn"><Icon name="pin" size={22} /><span>Pin by address</span></button>
       </nav>
@@ -556,7 +787,7 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
   );
 }
 
-function PinEditor({ pin, here, metric, onGo, onClose }: { pin: Pin; here: [number, number]; metric: boolean; onGo: () => void; onClose: () => void }) {
+function PinEditor({ pin, here, metric, onGo, onDirections, onClose }: { pin: Pin; here: [number, number]; metric: boolean; onGo: () => void; onDirections: (name: string) => void; onClose: () => void }) {
   const [p, setP] = useState(pin);
   useEffect(() => setP(pin), [pin]);
   const d = distanceM(here, [p.lon, p.lat]);
@@ -576,7 +807,8 @@ function PinEditor({ pin, here, metric, onGo, onClose }: { pin: Pin; here: [numb
       <div className="small muted">{fmtDD(p.lat, p.lon)} · {fmtDDM(p.lat, p.lon)} · USNG {fmtUSNG(p.lat, p.lon)}</div>
       <div className="btnrow">
         <Btn type="submit" kind="go" icon="check">Save</Btn>
-        <Btn icon="route" onClick={onGo}>Go to</Btn>
+        <Btn kind="primary" icon="route" onClick={async () => { await put('pins', p.id, { ...p, updated: Date.now() }); onDirections(p.name); }}>Directions</Btn>
+        <Btn icon="compass" onClick={onGo}>Straight line</Btn>
         <Btn kind="danger" icon="trash" onClick={async () => { if (confirm(`Delete pin "${p.name}"?`)) { await del('pins', p.id); onClose(); } }}>Delete</Btn>
       </div>
     </form>
@@ -638,7 +870,7 @@ export function flyTo(map: MLMap | null, ll: LngLatLike, z = 15) {
   map?.flyTo({ center: ll, zoom: z });
 }
 
-function AddressPanel({ here, metric, onShow, onSave, onClose }: { here: [number, number]; metric: boolean; onShow: (h: AddressHit) => void; onSave: (h: AddressHit, name: string) => Promise<void>; onClose: () => void }) {
+function AddressPanel({ here, metric, onShow, onSave, onDirections, onClose }: { here: [number, number]; metric: boolean; onShow: (h: AddressHit) => void; onSave: (h: AddressHit, name: string) => Promise<void>; onDirections: (h: AddressHit) => void; onClose: () => void }) {
   const [q, setQ] = useState('');
   const [hits, setHits] = useState<AddressHit[] | null>([]);
   const [sel, setSel] = useState<AddressHit | null>(null);
@@ -679,6 +911,7 @@ function AddressPanel({ here, metric, onShow, onSave, onClose }: { here: [number
           <Field label="Pin name (optional)"><input value={name} onChange={(e) => setName(e.target.value)} data-testid="address-pin-name" /></Field>
           <div className="btnrow">
             <Btn type="submit" kind="go" icon="check">Save pin</Btn>
+            <Btn kind="primary" icon="route" onClick={() => onDirections(sel)}>Directions</Btn>
             <Btn onClick={onClose}>Close</Btn>
           </div>
         </form>

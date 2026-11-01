@@ -17,7 +17,7 @@ declare const __BUILD_NUMBER__: number;
 declare const __APP_VERSION__: string;
 
 /** Raise this when a release changes the Android side (native plugins, permissions, capacitor.config). */
-export const NATIVE_LEVEL = 2;
+export const NATIVE_LEVEL = 3;
 
 export const APP_VERSION = __APP_VERSION__;
 export const BUILD_NUMBER = __BUILD_NUMBER__;

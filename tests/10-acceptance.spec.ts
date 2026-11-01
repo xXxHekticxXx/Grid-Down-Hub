@@ -250,3 +250,42 @@ test('11. Back and Add sit at the bottom within thumb reach; pins can be added b
   await expect(page.getByTestId('pin-name')).toHaveValue('Test address pin');
   await page.screenshot({ path: `${PROOF}/11-pin-by-address.png` });
 });
+
+test('12. offline turn-by-turn directions: route, start, voice banner, block a road and re-route', async ({ page }) => {
+  test.setTimeout(240_000);
+  // destination: AdventHealth Waterman, picked from the map (right-click drops a pin there)
+  await page.goto('/#/map?lat=28.82414&lon=-81.71214&z=16');
+  await waitForMap(page);
+  const box = (await page.getByTestId('map').boundingBox())!;
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2, { button: 'right' });
+  await expect(page.getByTestId('pin-editor')).toBeVisible();
+  await page.getByTestId('pin-name').fill('Waterman ER');
+  await page.getByRole('button', { name: 'Directions' }).click();
+  const panel = page.getByTestId('route-panel');
+  await expect(panel.getByTestId('route-0')).toBeVisible({ timeout: 90_000 });
+  const summary = (await panel.getByTestId('route-0').textContent()) || '';
+  expect(summary).toMatch(/min/);
+  const miles = Number((summary.match(/([\d.]+) mi/) || [])[1]);
+  expect(miles).toBeGreaterThan(8);
+  expect(miles).toBeLessThan(16);
+  await page.screenshot({ path: `${PROOF}/12-route-choice.png` });
+
+  await page.getByRole('button', { name: 'Start' }).click();
+  const banner = page.getByTestId('nav-banner');
+  await expect(banner).toBeVisible();
+  await expect(banner).toContainText(/Turn|Continue|Head/);
+  await expect(page.getByTestId('nav-eta')).toContainText('min');
+  await page.waitForTimeout(1500);
+  await page.screenshot({ path: `${PROOF}/12-driving.png` });
+
+  // mark the road ahead as blocked and get a new route
+  await page.getByTestId('nav-block').click();
+  const mbox = (await page.getByTestId('map').boundingBox())!;
+  await page.mouse.click(mbox.x + mbox.width / 2, mbox.y + mbox.height * 0.45);
+  await expect(page.getByTestId('block-panel')).toBeVisible({ timeout: 30_000 });
+  await page.screenshot({ path: `${PROOF}/12-block-road.png` });
+  await page.getByRole('button', { name: /Block/ }).click();
+  await expect(banner).toBeVisible({ timeout: 60_000 });
+  await page.getByTestId('nav-end').click();
+  await expect(banner).toBeHidden();
+});
