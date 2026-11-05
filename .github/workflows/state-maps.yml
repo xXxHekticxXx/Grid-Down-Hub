@@ -1,0 +1,123 @@
+# Builds an offline map for every US state (except Florida, which ships with the app) and publishes them
+# as assets of the "state-maps" release. The app's "Add maps by state" screen reads data/states.json
+# (published to the data-packs branch, served by GitHub Pages) and downloads the files in checked parts.
+name: State maps
+
+on:
+  push:
+    branches: [state-maps-build]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  TAG: state-maps
+
+jobs:
+  prep:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.m.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: m
+        run: |
+          echo "matrix=$(python3 -c "import json;print(json.dumps([{'code':s[0],'name':s[1],'slug':s[2],'bounds':(s[3] if len(s)>3 else '')} for s in json.load(open('pipeline/states.json'))]))")" >> $GITHUB_OUTPUT
+      - uses: actions/setup-java@v5
+        with: { distribution: temurin, java-version: 21 }
+      - name: Planetiler and the shared sources (ocean, lakes, Natural Earth)
+        run: |
+          mkdir -p tools data/sources
+          curl -sSL --fail -o tools/planetiler.jar https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar
+          java -jar tools/planetiler.jar --area=monaco --download --download_dir=data/sources --output=/tmp/monaco.pmtiles --force
+          rm -f data/sources/monaco*.pbf
+          ls -la data/sources
+      - uses: actions/cache/save@v4
+        with:
+          path: |
+            tools
+            data/sources
+          key: planetiler-sources-${{ github.run_id }}
+      - name: Release to hold the maps
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          gh release view $TAG >/dev/null 2>&1 || gh release create $TAG --title "State maps" --notes "Offline state maps for Grid-Down Hub (OpenStreetMap, ODbL). Download them inside the app: Maps > Add maps by state."
+
+  state:
+    needs: prep
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        s: ${{ fromJson(needs.prep.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with: { distribution: temurin, java-version: 21 }
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            tools
+            data/sources
+          key: planetiler-sources-${{ github.run_id }}
+          fail-on-cache-miss: true
+      - name: Make room
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /usr/local/share/boost; df -h .
+      - name: Download ${{ matrix.s.name }} from Geofabrik
+        run: |
+          curl -sSL --fail --retry 4 -o data/sources/state.osm.pbf "https://download.geofabrik.de/north-america/us/${{ matrix.s.slug }}-latest.osm.pbf"
+          ls -la data/sources/state.osm.pbf
+          pip install --break-system-packages -q osmium 2>/dev/null || true
+          python3 -c "import osmium,sys;h=osmium.io.Reader('data/sources/state.osm.pbf',osmium.osm.osm_entity_bits.NOTHING).header();print(h.get('osmosis_replication_timestamp') or '')" > osmdate.txt || true
+          [ -s osmdate.txt ] || date -u +%Y-%m-%d > osmdate.txt
+          cut -c1-10 osmdate.txt > osmdate10.txt; cat osmdate10.txt
+      - name: Build the map (zoom 13)
+        run: |
+          B="${{ matrix.s.bounds }}"
+          java -Xmx12g -jar tools/planetiler.jar --osm_path=data/sources/state.osm.pbf --download_dir=data/sources \
+            --output=${{ matrix.s.code }}.pmtiles --maxzoom=13 --render_maxzoom=13 --nodemap_type=sparsearray --storage=mmap \
+            --tmpdir=/tmp/pt ${B:+--bounds=$B} --force
+          ls -la ${{ matrix.s.code }}.pmtiles
+      - name: Publish
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          python3 pipeline/state_pack.py ${{ matrix.s.code }}.pmtiles ${{ matrix.s.code }} "${{ matrix.s.name }}" "$(cat osmdate10.txt)" pack-${{ matrix.s.code }}.json
+          gh release upload $TAG ${{ matrix.s.code }}.pmtiles pack-${{ matrix.s.code }}.json --clobber
+
+  index:
+    needs: state
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Collect every published state into states.json
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          mkdir p && cd p
+          gh release download $TAG -R ${{ github.repository }} -p 'pack-*.json'
+          python3 - <<'PY'
+          import glob, json, datetime
+          packs = sorted((json.load(open(f)) for f in glob.glob('pack-*.json')), key=lambda p: p['title'])
+          out = {"version": 1, "built": datetime.datetime.utcnow().strftime('%Y-%m-%d'),
+                 "base": "https://github.com/xXxHekticxXx/Grid-Down-Hub/releases/download/state-maps/", "packs": packs}
+          json.dump(out, open('states.json', 'w'))
+          print(len(packs), 'states,', round(sum(p['bytes'] for p in packs) / 1e9, 2), 'GB')
+          PY
+      - uses: actions/checkout@v5
+        with:
+          ref: data-packs
+          path: packs
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            README.md
+            data/states.json
+      - name: Put states.json on the data-packs branch (served by GitHub Pages)
+        run: |
+          cp p/states.json packs/data/states.json
+          cd packs
+          git config user.name github-actions; git config user.email github-actions@users.noreply.github.com
+          git add data/states.json
+          git commit -m "State maps index" || exit 0
+          git push
