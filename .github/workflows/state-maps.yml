@@ -30,8 +30,10 @@ jobs:
         run: |
           mkdir -p tools data/sources
           curl -sSL --fail -o tools/planetiler.jar https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar
-          java -jar tools/planetiler.jar --area=monaco --download --download_dir=data/sources --output=/tmp/monaco.pmtiles --force
-          rm -f data/sources/monaco*.pbf
+          get() { for i in 1 2 3 4 5; do curl -sSL --fail --connect-timeout 60 --max-time 1800 -o "data/sources/$1" "$2" && return 0; sleep 30; done; return 1; }
+          get water-polygons-split-3857.zip https://osmdata.openstreetmap.de/download/water-polygons-split-3857.zip
+          get natural_earth_vector.sqlite.zip https://naciscdn.org/naturalearth/packages/natural_earth_vector.sqlite.zip
+          get lake_centerline.shp.zip https://github.com/acalcutt/osm-lakelines/releases/download/v12/lake_centerline.shp.zip
           ls -la data/sources
       - uses: actions/cache/save@v4
         with:
