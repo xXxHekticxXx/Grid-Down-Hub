@@ -118,7 +118,7 @@ jobs:
             data/states.json
       - name: Put states.json on the data-packs branch (served by GitHub Pages)
         run: |
-          cp p/states.json packs/data/states.json
+          mkdir -p packs/data && cp p/states.json packs/data/states.json
           cd packs
           git config user.name github-actions; git config user.email github-actions@users.noreply.github.com
           git add data/states.json

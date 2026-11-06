@@ -9,6 +9,7 @@ import { go } from '../lib/router';
 import { pmtilesFromFile } from '../map/engine';
 import type { Track, UserMap } from './MapPage';
 import type { Pin } from '../types';
+import { StateMaps } from './StateMaps';
 import { pathLength, fmtDistance } from '../lib/geo';
 
 const COLORS = ['#C2410C', '#1F5C36', '#1D4E89', '#6B4B9A', '#B3141C', '#8A5A00'];
@@ -88,6 +89,7 @@ export default function MapsManager() {
         {packs.length === 0 && <Empty>Map data has not been downloaded yet.</Empty>}
         <Btn icon="download" to="/setup">Download or check map data</Btn>
       </div>
+      <div className="list" style={{ marginTop: 12 }}><StateMaps /></div>
       <SectionTitle>Mine</SectionTitle>
       <div className="list">
         {maps.length === 0 && <Empty>No maps added yet.</Empty>}

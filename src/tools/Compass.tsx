@@ -5,6 +5,7 @@ import type { Pin } from '../types';
 import { bearingDeg, cardinal, distanceM, fmtDistance, fmtDD, fmtDDM, fmtUSNG, magneticFromTrue, fmtDeclination, declinationAt, HOME_AREA } from '../lib/geo';
 import { useSettings } from '../lib/settings';
 import { href } from '../lib/router';
+import { native } from '../lib/native';
 
 export function CompassTool() {
   const { s } = useSettings();
@@ -39,6 +40,7 @@ export function CompassTool() {
           <text x="100" y="112" textAnchor="middle" fontSize="30" fontWeight="800" fill="currentColor">{h == null ? '—' : `${Math.round(h)}°`}</text>
           <text x="100" y="136" textAnchor="middle" fontSize="16" fill="currentColor">{h == null ? '' : cardinal(h)}</text>
         </svg>
+        {native() && <p className="small muted">Compass on your home screen: press and hold an empty spot on the home screen, tap Widgets, find Grid-Down Hub and drag "Compass" (round) or "Compass (slim)" onto the screen. It works offline and points to true north.</p>}
         {h == null && <p className="small">No compass sensor reading. Laptops usually have none. On the phone, move it in a figure 8 to wake the compass. You can still navigate by GPS on the map, or by sun and stars (Radio &amp; Navigation).</p>}
       </section>
       <section className="card">

@@ -4,4 +4,8 @@
     <string name="title_activity_main">Grid-Down Hub</string>
     <string name="package_name">com.xxxhekticxxx.griddownhub</string>
     <string name="custom_url_scheme">com.xxxhekticxxx.griddownhub</string>
+    <string name="compass_widget_label">Compass</string>
+    <string name="compass_widget_small_label">Compass (slim)</string>
+    <string name="compass_widget_desc">Offline compass that points to true north</string>
+    <string name="compass_widget_small_desc">Heading in degrees with a north arrow</string>
 </resources>

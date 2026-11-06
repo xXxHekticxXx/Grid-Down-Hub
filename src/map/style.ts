@@ -109,6 +109,7 @@ export type StyleOptions = {
   saver: boolean;
   base: string | null; // pmtiles:// urls, null when the pack isn't installed
   detail: string | null;
+  states?: string[]; // installed state maps (Maps > Add maps by state)
   topo: string | null;
   showTopo: boolean;
   topoOpacity: number;
@@ -122,10 +123,20 @@ export function buildStyle(o: StyleOptions): StyleSpecification {
   const layers: LayerSpecification[] = [{ id: 'background', type: 'background', paint: { 'background-color': p.bg } }];
   // Base: all of Florida to zoom 13 (overzoomed beyond). Detail: Lake County to Ocala NF, zoom 15.
   // The base file has the detail area cut out, so the two never draw the same roads twice.
+  // State maps are drawn layer by layer together with Florida (all land first, then water, then roads,
+  // then labels), so where two maps meet at a state line neither one paints over the other's roads.
+  const groups: LayerSpecification[][] = [];
+  (o.states ?? []).forEach((url, i) => {
+    const id = `st${i}`;
+    sources[id] = { type: 'vector', url, attribution: '© OpenMapTiles © OpenStreetMap contributors' };
+    groups.push(vectorLayers(id, p, { labels: true, saver: o.saver }));
+  });
   if (o.base) {
     sources.base = { type: 'vector', url: o.base, attribution: '© OpenMapTiles © OpenStreetMap contributors' };
-    layers.push(...vectorLayers('base', p, { labels: true, saver: o.saver }));
+    groups.push(vectorLayers('base', p, { labels: true, saver: o.saver }));
   }
+  const longest = Math.max(0, ...groups.map((g) => g.length));
+  for (let i = 0; i < longest; i++) for (const g of groups) if (g[i]) layers.push(g[i]);
   if (o.detail) {
     sources.detail = { type: 'vector', url: o.detail, attribution: '© OpenMapTiles © OpenStreetMap contributors' };
     layers.push(...vectorLayers('detail', p, { minzoom: 6, labels: true, saver: o.saver }));

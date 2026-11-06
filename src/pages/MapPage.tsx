@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import maplibregl, { type GeoJSONSource, type Map as MLMap, type LngLatLike } from 'maplibre-gl';
 import { buildStyle } from '../map/style';
+import { installedStates } from '../lib/statemaps';
 import { pmtilesUrl, assetUrl, pmtilesFromFile } from '../map/engine';
 import { POI_LAYERS, markerImage } from '../map/poiLayers';
 import { useSettings } from '../lib/settings';
@@ -124,10 +125,11 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
     let disposed = false;
     (async () => {
       const c = await content();
-      const [base, detail, topo] = await Promise.all([
+      const [base, detail, topo, states] = await Promise.all([
         pmtilesUrl('maps-base', 'florida-base.pmtiles'),
         pmtilesUrl('maps-detail', 'lake-ocala-detail.pmtiles'),
         pmtilesUrl('topo-overlay', 'usgs-topo.pmtiles'),
+        stateUrls(),
       ]);
       const miss: string[] = [];
       if (!base) miss.push('Florida base map');
@@ -140,7 +142,7 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
       if (disposed || !el.current) return;
       const map = new maplibregl.Map({
         container: el.current,
-        style: buildStyle({ theme: s.theme, saver: s.saver, base, detail, topo, showTopo: s.topo, topoOpacity, glyphs: assetUrl('fonts/{fontstack}/{range}.pbf'), sprite: assetUrl(`sprites/${s.theme === 'day' ? 'light' : 'dark'}`) }),
+        style: buildStyle({ theme: s.theme, saver: s.saver, base, detail, states, topo, showTopo: s.topo, topoOpacity, glyphs: assetUrl('fonts/{fontstack}/{range}.pbf'), sprite: assetUrl(`sprites/${s.theme === 'day' ? 'light' : 'dark'}`) }),
         center: [lon, lat],
         zoom: z,
         maxZoom: 19,
@@ -239,12 +241,13 @@ export default function MapPage({ query }: { query: URLSearchParams }) {
     const map = mapRef.current;
     if (!map || !ready) return;
     (async () => {
-      const [base, detail, topo] = await Promise.all([
+      const [base, detail, topo, states] = await Promise.all([
         pmtilesUrl('maps-base', 'florida-base.pmtiles'),
         pmtilesUrl('maps-detail', 'lake-ocala-detail.pmtiles'),
         pmtilesUrl('topo-overlay', 'usgs-topo.pmtiles'),
+        stateUrls(),
       ]);
-      map.setStyle(buildStyle({ theme: s.theme, saver: s.saver, base, detail, topo, showTopo: s.topo, topoOpacity, glyphs: assetUrl('fonts/{fontstack}/{range}.pbf'), sprite: assetUrl(`sprites/${s.theme === 'day' ? 'light' : 'dark'}`) }), { diff: false });
+      map.setStyle(buildStyle({ theme: s.theme, saver: s.saver, base, detail, states, topo, showTopo: s.topo, topoOpacity, glyphs: assetUrl('fonts/{fontstack}/{range}.pbf'), sprite: assetUrl(`sprites/${s.theme === 'day' ? 'light' : 'dark'}`) }), { diff: false });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [s.theme, s.saver]);
@@ -919,4 +922,14 @@ function AddressPanel({ here, metric, onShow, onSave, onDirections, onClose }: {
       {!sel && <div className="btnrow"><Btn onClick={onClose}>Close</Btn></div>}
     </div>
   );
+}
+
+/** pmtiles:// urls of the downloaded state maps. */
+async function stateUrls(): Promise<string[]> {
+  const out: string[] = [];
+  for (const p of await installedStates()) {
+    const u = await pmtilesUrl(p.id, p.files[0].name);
+    if (u) out.push(u);
+  }
+  return out;
 }
