@@ -30,10 +30,11 @@ jobs:
         run: |
           mkdir -p tools data/sources
           curl -sSL --fail -o tools/planetiler.jar https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar
-          get() { for i in 1 2 3 4 5; do curl -sSL --fail --connect-timeout 60 --max-time 1800 -o "data/sources/$1" "$2" && return 0; sleep 30; done; return 1; }
-          get water-polygons-split-3857.zip https://osmdata.openstreetmap.de/download/water-polygons-split-3857.zip
-          get natural_earth_vector.sqlite.zip https://naciscdn.org/naturalearth/packages/natural_earth_vector.sqlite.zip
-          get lake_centerline.shp.zip https://github.com/acalcutt/osm-lakelines/releases/download/v12/lake_centerline.shp.zip
+          # The water/Natural Earth/lake files live (in parts) on the build-sources branch; osmdata.openstreetmap.de
+          # doesn't answer GitHub's servers.
+          git clone -q --depth 1 --branch build-sources https://github.com/${{ github.repository }}.git /tmp/src
+          for f in water-polygons-split-3857.zip natural_earth_vector.sqlite.zip lake_centerline.shp.zip; do cat /tmp/src/parts/$f.* > data/sources/$f; done
+          (cd data/sources && sha256sum -c /tmp/src/SHA256SUMS)
           ls -la data/sources
       - uses: actions/cache/save@v4
         with:
